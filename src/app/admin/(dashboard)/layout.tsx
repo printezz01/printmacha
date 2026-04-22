@@ -9,9 +9,9 @@ import {
   Tag,
   FileText,
   Settings,
-  LogOut,
   ExternalLink,
 } from "lucide-react";
+import AdminLogoutButton from "@/components/admin/AdminLogoutButton";
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -67,10 +67,7 @@ export default function AdminLayout({
             <ExternalLink className="w-4 h-4" />
             View Store
           </Link>
-          <button className="admin-nav-item w-full text-left text-[var(--color-error)]">
-            <LogOut className="w-4 h-4" />
-            Log Out
-          </button>
+          <AdminLogoutButton />
         </div>
       </aside>
 

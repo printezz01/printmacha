@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { User, ShoppingBag, MapPin, Heart, LogOut, ChevronRight, Package } from "lucide-react";
+import { User, ShoppingBag, MapPin, Heart, Package } from "lucide-react";
+import CustomerLogoutButton from "@/components/store/CustomerLogoutButton";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,7 +9,25 @@ export const metadata: Metadata = {
   description: "Manage your PrintMacha account, orders, and addresses.",
 };
 
-export default function AccountPage() {
+export default async function AccountPage() {
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  let profile = { full_name: "PrintMacha Customer", phone: "Not provided" };
+  
+  if (user) {
+    const { data } = await supabase
+      .from("user_profiles")
+      .select("full_name, phone")
+      .eq("user_id", user.id)
+      .single();
+      
+    if (data) {
+      if (data.full_name) profile.full_name = data.full_name;
+      if (data.phone) profile.phone = data.phone;
+    }
+  }
+
   return (
     <div className="container-wide py-8 md:py-12">
       <h1 className="text-3xl font-bold font-[var(--font-heading)] mb-8">My Account</h1>
@@ -15,12 +35,12 @@ export default function AccountPage() {
       <div className="grid md:grid-cols-3 gap-6">
         {/* Profile Card */}
         <div className="md:col-span-3 p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xl font-bold">
-            P
+          <div className="w-16 h-16 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xl font-bold uppercase">
+            {profile.full_name.charAt(0)}
           </div>
           <div>
-            <h2 className="font-bold text-lg">PrintMacha Customer</h2>
-            <p className="text-sm text-[var(--color-text-secondary)]">+91 98765 43210</p>
+            <h2 className="font-bold text-lg">{profile.full_name}</h2>
+            <p className="text-sm text-[var(--color-text-secondary)]">{user?.email || profile.phone}</p>
           </div>
         </div>
 
@@ -53,11 +73,7 @@ export default function AccountPage() {
         ))}
 
         {/* Logout */}
-        <button className="p-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] hover:border-[var(--color-error)] transition-colors text-left group">
-          <LogOut className="w-5 h-5 text-[var(--color-error)] mb-3" />
-          <h3 className="font-semibold mb-1 group-hover:text-[var(--color-error)] transition-colors">Log Out</h3>
-          <p className="text-sm text-[var(--color-text-secondary)]">Sign out of your account</p>
-        </button>
+        <CustomerLogoutButton />
       </div>
     </div>
   );

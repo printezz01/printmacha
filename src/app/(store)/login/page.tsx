@@ -1,13 +1,80 @@
+"use client";
+
+import { useState, Suspense } from "react";
 import Link from "next/link";
-import { Phone, ArrowRight } from "lucide-react";
-import type { Metadata } from "next";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Mail, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
-export const metadata: Metadata = {
-  title: "Login",
-  description: "Log in to your PrintMacha account.",
-};
+function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [step, setStep] = useState<"email" | "otp">("email");
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/account";
+  const supabase = createClient();
 
-export default function LoginPage() {
+  const handleSendOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes("@")) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: `${window.location.origin}/auth/callback?next=${redirectUrl}`,
+        },
+      });
+
+      if (error) throw error;
+      
+      setStep("otp");
+      toast.success("OTP sent to your email!");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to send OTP");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otp.length !== 6) {
+      toast.error("Please enter the 6-digit OTP");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email,
+        token: otp,
+        type: "email",
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        toast.success("Logged in successfully!");
+        router.push(redirectUrl);
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Invalid OTP");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="container-wide py-16 md:py-24">
       <div className="max-w-md mx-auto">
@@ -21,55 +88,90 @@ export default function LoginPage() {
               Print<span className="text-[var(--color-accent)]">Macha</span>
             </span>
           </Link>
-          <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-2">Welcome back</h1>
+          <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-2">
+            {step === "email" ? "Welcome back" : "Check your email"}
+          </h1>
           <p className="text-[var(--color-text-secondary)]">
-            Log in with your phone number to continue
+            {step === "email" 
+              ? "Log in with your email to continue" 
+              : `We sent a 6-digit code to ${email}`}
           </p>
         </div>
 
         {/* Login Form */}
         <div className="p-6 md:p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)]">
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium mb-1.5 block">Phone Number</label>
-              <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-muted)]" />
+          {step === "email" ? (
+            <form onSubmit={handleSendOtp} className="space-y-4">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Email Address</label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-muted)]" />
+                  <input
+                    type="email"
+                    className="input pl-10"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isLoading}
+                    required
+                  />
+                </div>
+              </div>
+
+              <button 
+                type="submit" 
+                className="w-full btn btn-primary btn-lg flex justify-center gap-2"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <><Loader2 className="w-5 h-5 animate-spin" /> Sending...</>
+                ) : (
+                  <>Send OTP <ArrowRight className="w-4 h-4" /></>
+                )}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleVerifyOtp} className="space-y-6">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block text-center">Enter 6-digit OTP</label>
                 <input
-                  type="tel"
-                  className="input pl-10"
-                  placeholder="+91 98765 43210"
-                  id="login-phone"
+                  type="text"
+                  maxLength={6}
+                  className="input text-center text-2xl font-bold tracking-[0.5em] h-14"
+                  placeholder="------"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
+                  disabled={isLoading}
+                  autoFocus
+                  required
                 />
               </div>
-            </div>
 
-            <button className="w-full btn btn-primary btn-lg" id="send-otp-btn">
-              Send OTP
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* OTP section (hidden by default, would be toggled by JS) */}
-          <div className="mt-6 pt-6 border-t border-[var(--color-border)] hidden" id="otp-section">
-            <label className="text-sm font-medium mb-1.5 block">Enter OTP</label>
-            <div className="flex gap-2 mb-4">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <input
-                  key={i}
-                  type="text"
-                  maxLength={1}
-                  className="input text-center text-lg font-bold w-12 h-12"
-                />
-              ))}
-            </div>
-            <button className="w-full btn btn-primary btn-lg" id="verify-otp-btn">
-              Verify & Login
-            </button>
-            <p className="text-xs text-center text-[var(--color-text-muted)] mt-3">
-              Didn&apos;t receive OTP?{" "}
-              <button className="text-[var(--color-accent)] font-medium">Resend</button>
-            </p>
-          </div>
+              <button 
+                type="submit" 
+                className="w-full btn btn-primary btn-lg flex justify-center gap-2"
+                disabled={isLoading || otp.length !== 6}
+              >
+                {isLoading ? (
+                  <><Loader2 className="w-5 h-5 animate-spin" /> Verifying...</>
+                ) : (
+                  <><CheckCircle2 className="w-5 h-5" /> Verify & Login</>
+                )}
+              </button>
+              
+              <p className="text-xs text-center text-[var(--color-text-muted)] mt-4">
+                Didn&apos;t receive it?{" "}
+                <button 
+                  type="button" 
+                  onClick={handleSendOtp} 
+                  className="text-[var(--color-accent)] font-medium hover:underline"
+                  disabled={isLoading}
+                >
+                  Resend OTP
+                </button>
+              </p>
+            </form>
+          )}
 
           <p className="text-xs text-center text-[var(--color-text-muted)] mt-6">
             By continuing, you agree to our{" "}
@@ -79,13 +181,23 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <p className="text-sm text-center mt-6 text-[var(--color-text-secondary)]">
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-[var(--color-accent)] font-semibold hover:underline">
-            Sign up
-          </Link>
-        </p>
+        {step === "email" && (
+          <p className="text-sm text-center mt-6 text-[var(--color-text-secondary)]">
+            Don&apos;t have an account?{" "}
+            <Link href="/signup" className="text-[var(--color-accent)] font-semibold hover:underline">
+              Sign up
+            </Link>
+          </p>
+        )}
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="container-wide py-16 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-[var(--color-accent)]" /></div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

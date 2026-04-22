@@ -4,10 +4,15 @@ import { cookies } from 'next/headers';
 export async function createServerSupabaseClient() {
   const cookieStore = await cookies();
 
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    // Return a dummy client during build if env vars are missing
+    return createServerClient('https://dummy.supabase.co', 'dummy', { cookies: { getAll: () => [], setAll: () => {} } });
+  }
+
+  return createServerClient(url, key, {
       cookies: {
         getAll() {
           return cookieStore.getAll();
@@ -29,10 +34,14 @@ export async function createServerSupabaseClient() {
 
 export async function createServiceRoleClient() {
   const { createClient } = await import('@supabase/supabase-js');
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !key) {
+    return createClient('https://dummy.supabase.co', 'dummy', { auth: { autoRefreshToken: false, persistSession: false } });
+  }
+
+  return createClient(url, key, {
       auth: {
         autoRefreshToken: false,
         persistSession: false,
