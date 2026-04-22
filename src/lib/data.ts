@@ -40,7 +40,7 @@ async function supabaseQuery(table: string, query: string = ""): Promise<any[]> 
 export async function getProducts(): Promise<Product[]> {
   const data = await supabaseQuery(
     "products",
-    "select=*,category:categories(id,name,slug)&is_published=eq.true&order=created_at.desc"
+    "select=*,category:categories!products_category_id_fkey(id,name,slug)&is_published=eq.true&order=created_at.desc"
   );
 
   if (data.length > 0) return data as Product[];
@@ -50,7 +50,7 @@ export async function getProducts(): Promise<Product[]> {
 export async function getFeaturedProducts(): Promise<Product[]> {
   const data = await supabaseQuery(
     "products",
-    "select=*,category:categories(id,name,slug)&is_published=eq.true&is_featured=eq.true&order=created_at.desc&limit=8"
+    "select=*,category:categories!products_category_id_fkey(id,name,slug)&is_published=eq.true&is_featured=eq.true&order=created_at.desc&limit=8"
   );
 
   if (data.length > 0) return data as Product[];
@@ -60,7 +60,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 export async function getBestSellers(): Promise<Product[]> {
   const data = await supabaseQuery(
     "products",
-    "select=*,category:categories(id,name,slug)&is_published=eq.true&is_best_seller=eq.true&order=created_at.desc&limit=8"
+    "select=*,category:categories!products_category_id_fkey(id,name,slug)&is_published=eq.true&is_best_seller=eq.true&order=created_at.desc&limit=8"
   );
 
   if (data.length > 0) return data as Product[];
@@ -70,7 +70,7 @@ export async function getBestSellers(): Promise<Product[]> {
 export async function getNewArrivals(): Promise<Product[]> {
   const data = await supabaseQuery(
     "products",
-    "select=*,category:categories(id,name,slug)&is_published=eq.true&is_new_arrival=eq.true&order=created_at.desc&limit=8"
+    "select=*,category:categories!products_category_id_fkey(id,name,slug)&is_published=eq.true&is_new_arrival=eq.true&order=created_at.desc&limit=8"
   );
 
   if (data.length > 0) return data as Product[];
@@ -80,7 +80,7 @@ export async function getNewArrivals(): Promise<Product[]> {
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const data = await supabaseQuery(
     "products",
-    `select=*,category:categories(id,name,slug)&slug=eq.${slug}&is_published=eq.true&limit=1`
+    `select=*,category:categories!products_category_id_fkey(id,name,slug)&slug=eq.${slug}&is_published=eq.true&limit=1`
   );
 
   if (data.length > 0) return data[0] as Product;
@@ -95,7 +95,7 @@ export async function getProductsByCategory(categorySlug: string): Promise<Produ
     const catId = cats[0].id;
     const data = await supabaseQuery(
       "products",
-      `select=*,category:categories(id,name,slug)&is_published=eq.true&category_id=eq.${catId}&order=created_at.desc`
+      `select=*,category:categories!products_category_id_fkey(id,name,slug)&is_published=eq.true&category_id=eq.${catId}&order=created_at.desc`
     );
     if (data.length > 0) return data as Product[];
   }
@@ -106,7 +106,7 @@ export async function getProductsByCategory(categorySlug: string): Promise<Produ
 export async function getRelatedProducts(categoryId: string, excludeProductId: string): Promise<Product[]> {
   const data = await supabaseQuery(
     "products",
-    `select=*,category:categories(id,name,slug)&is_published=eq.true&category_id=eq.${categoryId}&id=neq.${excludeProductId}&limit=4`
+    `select=*,category:categories!products_category_id_fkey(id,name,slug)&is_published=eq.true&category_id=eq.${categoryId}&id=neq.${excludeProductId}&limit=4`
   );
 
   if (data.length > 0) return data as Product[];
