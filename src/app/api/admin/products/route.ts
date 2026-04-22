@@ -7,7 +7,7 @@ export async function GET() {
     const supabase = await createServiceRoleClient();
     const { data, error } = await supabase
       .from("products")
-      .select("*, category:categories(id, name, slug)")
+      .select("*, category:categories!products_category_id_fkey(id, name, slug)")
       .order("created_at", { ascending: false });
 
     if (error) throw error;

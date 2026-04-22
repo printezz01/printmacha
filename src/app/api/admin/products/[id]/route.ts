@@ -8,7 +8,7 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ id: st
     const supabase = await createServiceRoleClient();
     const { data, error } = await supabase
       .from("products")
-      .select("*, category:categories(id, name, slug)")
+      .select("*, category:categories!products_category_id_fkey(id, name, slug)")
       .eq("id", id)
       .single();
 
