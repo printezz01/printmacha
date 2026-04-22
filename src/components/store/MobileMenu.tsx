@@ -1,0 +1,81 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+
+export default function MobileMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <button
+        className="btn-icon btn-ghost lg:hidden"
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+        id="mobile-menu-toggle"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </button>
+
+      {/* Mobile Menu Overlay */}
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
+            onClick={() => setIsOpen(false)}
+          />
+          {/* Slide-in Panel */}
+          <div className="fixed top-0 left-0 bottom-0 w-[280px] bg-[var(--color-surface-elevated)] z-50 lg:hidden shadow-xl animate-slide-right">
+            <div className="p-4 border-b border-[var(--color-border)] flex items-center justify-between">
+              <span className="text-lg font-bold font-[var(--font-heading)]">
+                Print<span className="text-[var(--color-accent)]">Macha</span>
+              </span>
+              <button onClick={() => setIsOpen(false)} className="btn-icon btn-ghost">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <nav className="p-4 space-y-1">
+              {[
+                { href: "/shop", label: "Shop All" },
+                { href: "/category/posters", label: "Posters" },
+                { href: "/category/3d-textured-posters", label: "3D Textured Posters" },
+                { href: "/category/f1-collection", label: "F1 Collection" },
+                { href: "/category/desk-accessories", label: "Desk Accessories" },
+                { href: "/about", label: "About" },
+                { href: "/contact", label: "Contact" },
+                { href: "/faq", label: "FAQ" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-3 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-text-primary)] transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="p-4 border-t border-[var(--color-border)] space-y-2">
+              <Link
+                href="/account"
+                onClick={() => setIsOpen(false)}
+                className="block px-4 py-3 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)] transition-colors"
+              >
+                My Account
+              </Link>
+              <Link
+                href="/wishlist"
+                onClick={() => setIsOpen(false)}
+                className="block px-4 py-3 rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-muted)] transition-colors"
+              >
+                Wishlist
+              </Link>
+            </div>
+          </div>
+        </>
+      )}
+    </>
+  );
+}
