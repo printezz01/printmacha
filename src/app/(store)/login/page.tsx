@@ -30,6 +30,10 @@ function LoginForm() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
+          data: {
+            full_name: "",
+            phone: ""
+          },
           shouldCreateUser: true,
           emailRedirectTo: `${window.location.origin}/auth/callback?next=${redirectUrl}`,
         },
