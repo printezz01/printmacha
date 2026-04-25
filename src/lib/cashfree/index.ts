@@ -2,6 +2,8 @@
 // Cashfree Payment Gateway Integration
 // ============================================
 
+import * as crypto from 'crypto';
+
 interface CreateOrderPayload {
   orderId: string;
   orderAmount: number;
@@ -96,7 +98,6 @@ export function verifyCashfreeWebhookSignature(
   signature: string
 ): boolean {
   // Cashfree webhook verification using HMAC
-  const crypto = require('crypto');
   const webhookSecret = process.env.CASHFREE_WEBHOOK_SECRET!;
   
   const signatureData = timestamp + rawBody;

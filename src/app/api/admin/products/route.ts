@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 // GET all products (admin)
 export async function GET() {
@@ -57,6 +58,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) throw error;
+    revalidatePath("/", "layout");
     return NextResponse.json({ data }, { status: 201 });
   } catch (error: any) {
     console.error("Failed to create product:", error);

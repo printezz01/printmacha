@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceRoleClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 // GET all categories
 export async function GET() {
@@ -39,6 +40,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) throw error;
+    revalidatePath("/", "layout");
     return NextResponse.json({ data }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || "Failed to create category" }, { status: 500 });
