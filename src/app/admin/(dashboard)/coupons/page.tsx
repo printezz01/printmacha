@@ -34,7 +34,7 @@ export default async function AdminCouponsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-[var(--color-border)]">
-            {coupons.map((coupon) => (
+            {coupons?.map((coupon) => (
               <tr key={coupon.id} className="hover:bg-[var(--color-surface-muted)]">
                 <td className="p-4 font-mono font-bold text-[var(--color-accent)]">{coupon.code}</td>
                 <td className="p-4">{coupon.type === "percentage" ? `${coupon.value}%` : formatPrice(coupon.value)}</td>

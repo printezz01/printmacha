@@ -20,7 +20,7 @@ export default async function AdminContentPage() {
       </p>
 
       <div className="bg-white rounded-xl border border-[var(--color-border)] divide-y divide-[var(--color-border)]">
-        {sections.map((section, i) => (
+        {sections?.map((section, i) => (
           <div key={i} className="p-4 flex items-center justify-between hover:bg-[var(--color-surface-muted)] transition-colors">
             <div className="flex items-center gap-3">
               <GripVertical className="w-4 h-4 text-[var(--color-text-muted)] cursor-grab" />
