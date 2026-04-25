@@ -42,7 +42,7 @@ export async function createCashfreeOrder(payload: CreateOrderPayload): Promise<
       order_amount: payload.orderAmount,
       order_currency: 'INR',
       customer_details: {
-        customer_id: user?.id || payload.orderId,
+        customer_id: payload.orderId,
         customer_name: payload.customerName || "Guest",
         customer_email: payload.customerEmail || "guest@example.com",
         customer_phone: payload.customerPhone.replace(/\D/g, '').slice(-10),
