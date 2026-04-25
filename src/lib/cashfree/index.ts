@@ -29,7 +29,7 @@ const getHeaders = () => ({
   'Content-Type': 'application/json',
   'x-client-id': process.env.CASHFREE_APP_ID!,
   'x-client-secret': process.env.CASHFREE_SECRET_KEY!,
-  'x-api-version': '2023-08-01',
+  'x-api-version': '2022-09-01',
 });
 
 // Create order on Cashfree
@@ -42,10 +42,10 @@ export async function createCashfreeOrder(payload: CreateOrderPayload): Promise<
       order_amount: payload.orderAmount,
       order_currency: 'INR',
       customer_details: {
-        customer_id: payload.orderId,
-        customer_name: payload.customerName,
-        customer_email: payload.customerEmail,
-        customer_phone: payload.customerPhone,
+        customer_id: user?.id || payload.orderId,
+        customer_name: payload.customerName || "Guest",
+        customer_email: payload.customerEmail || "guest@example.com",
+        customer_phone: payload.customerPhone.replace(/\D/g, '').slice(-10),
       },
       order_meta: {
         return_url: payload.returnUrl + '?order_id={order_id}',

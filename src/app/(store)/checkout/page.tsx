@@ -71,12 +71,12 @@ export default function CheckoutPage() {
 
       if (data.success) {
         if (paymentMethod === "prepaid" && data.payment_session_id) {
+          console.log("Initializing Cashfree with session:", data.payment_session_id.substring(0, 10) + "...", "Mode:", data.environment);
           const cashfree = await load({
-            mode: data.environment || "sandbox",
+            mode: (data.environment as "sandbox" | "production") || "sandbox",
           });
           cashfree.checkout({
             paymentSessionId: data.payment_session_id,
-            redirectTarget: "_self",
           });
         } else {
           clearCart();
