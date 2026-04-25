@@ -1,11 +1,12 @@
 import { createServiceRoleClient } from "@/lib/supabase/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = await createServiceRoleClient();
     const body = await request.json();
 
@@ -20,7 +21,7 @@ export async function PATCH(
         sort_order: body.sort_order,
         is_active: body.is_active,
       })
-      .eq("id", params.id)
+      .eq("id", id)
       .select()
       .single();
 
