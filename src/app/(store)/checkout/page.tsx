@@ -72,7 +72,7 @@ export default function CheckoutPage() {
       if (data.success) {
         if (paymentMethod === "prepaid" && data.payment_session_id) {
           const cashfree = await load({
-            mode: process.env.NEXT_PUBLIC_CASHFREE_ENV === "production" ? "production" : "sandbox",
+            mode: data.environment || "sandbox",
           });
           cashfree.checkout({
             paymentSessionId: data.payment_session_id,

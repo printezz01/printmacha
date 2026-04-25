@@ -102,6 +102,7 @@ export async function POST(request: NextRequest) {
           order_number: orderNumber,
           payment_session_id: cashfreeOrder.payment_session_id,
           cf_order_id: cashfreeOrder.cf_order_id,
+          environment: process.env.CASHFREE_ENV === "production" ? "production" : "sandbox",
         });
       } catch (error: any) {
         console.error("Cashfree order creation failed:", error);
