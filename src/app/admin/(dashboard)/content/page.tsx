@@ -1,19 +1,16 @@
 import { Save, Pencil, GripVertical } from "lucide-react";
 import type { Metadata } from "next";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Homepage Content | Admin" };
 
-export default function AdminContentPage() {
-  const sections = [
-    { type: "Hero", title: "Art That Stands Out. Literally.", active: true },
-    { type: "Promo Strip", title: "Launch Offer Banner", active: true },
-    { type: "Featured Categories", title: "Shop by Category", active: true },
-    { type: "Best Sellers", title: "Best Sellers", active: true },
-    { type: "New Arrivals", title: "New Arrivals", active: true },
-    { type: "Value Props", title: "Why PrintMacha?", active: true },
-    { type: "Testimonials", title: "Customer Reviews", active: true },
-    { type: "Collections", title: "Featured Collections", active: true },
-  ];
+export default async function AdminContentPage() {
+  const supabase = await createServiceRoleClient();
+  const { data: sections } = await supabase
+    .from("homepage_sections")
+    .select("*")
+    .order("sort_order", { ascending: true });
+
 
   return (
     <div>
@@ -28,19 +25,24 @@ export default function AdminContentPage() {
             <div className="flex items-center gap-3">
               <GripVertical className="w-4 h-4 text-[var(--color-text-muted)] cursor-grab" />
               <div>
-                <p className="font-medium text-sm">{section.title}</p>
-                <p className="text-xs text-[var(--color-text-muted)]">{section.type}</p>
+                <p className="font-medium text-sm">{section.title || section.type}</p>
+                <p className="text-xs text-[var(--color-text-muted)] uppercase">{section.type}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <label className="flex items-center gap-2 text-sm">
-                <input type="checkbox" defaultChecked={section.active} className="accent-[var(--color-accent)]" />
+                <input type="checkbox" defaultChecked={section.is_active} className="accent-[var(--color-accent)]" />
                 Active
               </label>
               <button className="btn btn-ghost btn-sm"><Pencil className="w-4 h-4" /> Edit</button>
             </div>
           </div>
         ))}
+        {(!sections || sections.length === 0) && (
+          <div className="p-12 text-center text-[var(--color-text-muted)]">
+            No homepage sections configured.
+          </div>
+        )}
       </div>
 
       <button className="btn btn-primary mt-6"><Save className="w-4 h-4" /> Save Changes</button>

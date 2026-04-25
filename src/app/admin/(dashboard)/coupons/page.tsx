@@ -1,15 +1,17 @@
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import type { Metadata } from "next";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Coupons | Admin" };
 
-export default function AdminCouponsPage() {
-  const coupons = [
-    { code: "WELCOME10", type: "percentage", value: 10, minOrder: 500, maxDiscount: 200, usageLimit: 500, used: 47, active: true, validUntil: "Oct 2026" },
-    { code: "FLAT100", type: "fixed", value: 100, minOrder: 999, maxDiscount: null, usageLimit: 200, used: 23, active: true, validUntil: "Jul 2026" },
-    { code: "LAUNCH20", type: "percentage", value: 20, minOrder: 1500, maxDiscount: 500, usageLimit: 100, used: 68, active: true, validUntil: "May 2026" },
-  ];
+export default async function AdminCouponsPage() {
+  const supabase = await createServiceRoleClient();
+  const { data: coupons } = await supabase
+    .from("coupons")
+    .select("*")
+    .order("created_at", { ascending: false });
+
 
   return (
     <div>
@@ -33,13 +35,14 @@ export default function AdminCouponsPage() {
           </thead>
           <tbody className="divide-y divide-[var(--color-border)]">
             {coupons.map((coupon) => (
-              <tr key={coupon.code} className="hover:bg-[var(--color-surface-muted)]">
+              <tr key={coupon.id} className="hover:bg-[var(--color-surface-muted)]">
                 <td className="p-4 font-mono font-bold text-[var(--color-accent)]">{coupon.code}</td>
                 <td className="p-4">{coupon.type === "percentage" ? `${coupon.value}%` : formatPrice(coupon.value)}</td>
-                <td className="p-4">{formatPrice(coupon.minOrder)}</td>
-                <td className="p-4">{coupon.used}/{coupon.usageLimit}</td>
-                <td className="p-4 text-[var(--color-text-muted)]">{coupon.validUntil}</td>
-                <td className="p-4"><span className={`status-pill ${coupon.active ? "status-confirmed" : "status-cancelled"}`}>{coupon.active ? "Active" : "Inactive"}</span></td>
+                <td className="p-4">{formatPrice(coupon.min_order_amount)}</td>
+                <td className="p-4">{coupon.used_count}/{coupon.usage_limit || "∞"}</td>
+                <td className="p-4 text-[var(--color-text-muted)]">{coupon.valid_until ? new Date(coupon.valid_until).toLocaleDateString() : "Never"}</td>
+                <td className="p-4"><span className={`status-pill ${coupon.is_active ? "status-confirmed" : "status-cancelled"}`}>{coupon.is_active ? "Active" : "Inactive"}</span></td>
+
                 <td className="p-4">
                   <div className="flex gap-1">
                     <button className="btn btn-ghost btn-sm btn-icon"><Pencil className="w-4 h-4" /></button>
@@ -48,6 +51,13 @@ export default function AdminCouponsPage() {
                 </td>
               </tr>
             ))}
+            {(!coupons || coupons.length === 0) && (
+              <tr>
+                <td colSpan={7} className="p-12 text-center text-[var(--color-text-muted)]">
+                  No coupons found. Create your first discount code!
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
