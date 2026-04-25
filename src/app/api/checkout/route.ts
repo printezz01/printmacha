@@ -10,7 +10,9 @@ export async function POST(request: NextRequest) {
       items,
       shipping_address,
       payment_method,
+      coupon_id,
       coupon_code,
+      discount: clientDiscount,
       guest_email,
       guest_phone,
       notes,
@@ -54,6 +56,32 @@ export async function POST(request: NextRequest) {
       serverTotal += 49;
     }
 
+    // Apply coupon discount (re-validated server-side)
+    let discount = 0;
+    let validatedCouponId = coupon_id || null;
+    if (coupon_code) {
+      const { data: coupon } = await supabase
+        .from("coupons")
+        .select("*")
+        .eq("code", coupon_code.toUpperCase())
+        .eq("is_active", true)
+        .single();
+
+      if (coupon) {
+        const baseAmount = serverTotal - (payment_method === "cod" ? 49 : 0);
+        if (!coupon.min_order_amount || baseAmount >= coupon.min_order_amount) {
+          if (coupon.type === "percentage") {
+            discount = Math.round((baseAmount * coupon.value) / 100);
+            if (coupon.max_discount_amount) discount = Math.min(discount, coupon.max_discount_amount);
+          } else {
+            discount = Math.min(coupon.value, baseAmount);
+          }
+          validatedCouponId = coupon.id;
+        }
+      }
+    }
+    const discountedTotal = Math.max(0, serverTotal - discount);
+
     // Create order in Supabase
     const { data: orderData, error: orderError } = await supabase
       .from("orders")
@@ -64,8 +92,11 @@ export async function POST(request: NextRequest) {
         guest_phone: guest_phone || shipping_address.phone,
         status: "pending",
         subtotal: serverTotal - (payment_method === "cod" ? 49 : 0),
+        discount_amount: discount,
+        coupon_id: validatedCouponId,
+        coupon_code: coupon_code || null,
         shipping_amount: 0,
-        total: serverTotal,
+        total: discountedTotal,
         payment_method,
         shipping_address,
         billing_address: shipping_address,
@@ -90,7 +121,7 @@ export async function POST(request: NextRequest) {
         
         const cashfreeOrder = await createCashfreeOrder({
           orderId: orderNumber,
-          orderAmount: serverTotal,
+          orderAmount: discountedTotal,
           customerName: shipping_address.full_name || "Guest User",
           customerEmail: guest_email || "customer@printmacha.com",
           customerPhone: guest_phone || shipping_address.phone || "9999999999",
