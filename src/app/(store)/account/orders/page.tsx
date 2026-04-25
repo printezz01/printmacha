@@ -2,18 +2,42 @@ import Link from "next/link";
 import { Package, ChevronRight, Eye } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import type { Metadata } from "next";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "My Orders",
   description: "View your order history and track shipments.",
 };
 
-export default function OrdersPage() {
-  const orders = [
-    { id: "PM-LX4R-A2BC", date: "Apr 15, 2026", total: 1547, status: "shipped", items: 2 },
-    { id: "PM-KW3Q-Y1ZA", date: "Apr 8, 2026", total: 2899, status: "delivered", items: 1 },
-    { id: "PM-JH2P-X0WZ", date: "Mar 28, 2026", total: 699, status: "delivered", items: 1 },
-  ];
+export default async function OrdersPage() {
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let orders: any[] = [];
+  if (user) {
+    const { data } = await supabase
+      .from("orders")
+      .select(`
+        id,
+        order_number,
+        created_at,
+        total,
+        status,
+        order_items(count)
+      `)
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+    
+    if (data) {
+      orders = data.map(o => ({
+        id: o.order_number,
+        date: new Date(o.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        total: o.total,
+        status: o.status,
+        items: o.order_items?.[0]?.count || 0
+      }));
+    }
+  }
 
   return (
     <div className="container-wide py-8 md:py-12">

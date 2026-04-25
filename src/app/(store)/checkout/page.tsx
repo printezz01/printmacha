@@ -7,6 +7,7 @@ import { Lock, Truck, Shield, CreditCard, ShoppingBag } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { toast } from "sonner";
+import { load } from "@cashfreepayments/cashfree-js";
 
 const INDIAN_STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -69,10 +70,19 @@ export default function CheckoutPage() {
       const data = await response.json();
 
       if (data.success) {
-        clearCart();
-        toast.success(`Order ${data.order_number} placed successfully!`);
-        // For now, redirect to home. Later: redirect to order confirmation page
-        router.push(`/`);
+        if (paymentMethod === "prepaid" && data.payment_session_id) {
+          const cashfree = await load({
+            mode: process.env.NEXT_PUBLIC_CASHFREE_ENV === "production" ? "production" : "sandbox",
+          });
+          cashfree.checkout({
+            paymentSessionId: data.payment_session_id,
+            redirectTarget: "_self",
+          });
+        } else {
+          clearCart();
+          toast.success(`Order ${data.order_number} placed successfully!`);
+          router.push(`/account/orders`);
+        }
       } else {
         toast.error(data.error || "Failed to place order. Please try again.");
       }
