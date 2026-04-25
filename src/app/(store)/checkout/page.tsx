@@ -21,12 +21,12 @@ const INDIAN_STATES = [
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, subtotal, shipping, total, clearCart } = useCart();
+  const { items, subtotal, shipping, total, discount, appliedCoupon, clearCart } = useCart();
   const [paymentMethod, setPaymentMethod] = useState("prepaid");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const codFee = paymentMethod === "cod" ? 49 : 0;
-  const finalTotal = total + codFee;
+  const finalTotal = total - (appliedCoupon?.discount || 0) + codFee;
 
   const handlePlaceOrder = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,6 +60,9 @@ export default function CheckoutPage() {
             country: "India",
           },
           payment_method: paymentMethod,
+          coupon_id: appliedCoupon?.id || null,
+          coupon_code: appliedCoupon?.code || null,
+          discount: appliedCoupon?.discount || 0,
           guest_email: formData.get("email"),
           guest_phone: formData.get("phone"),
           notes: formData.get("notes"),
@@ -259,6 +262,12 @@ export default function CheckoutPage() {
                     {shipping === 0 ? "Free" : formatPrice(shipping)}
                   </span>
                 </div>
+                {discount > 0 && appliedCoupon && (
+                  <div className="flex justify-between text-sm text-green-600">
+                    <span>Coupon ({appliedCoupon.code})</span>
+                    <span>−{formatPrice(discount)}</span>
+                  </div>
+                )}
                 {codFee > 0 && (
                   <div className="flex justify-between text-sm">
                     <span className="text-[var(--color-text-secondary)]">COD Fee</span>

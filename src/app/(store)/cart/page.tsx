@@ -9,14 +9,10 @@ import { useCart } from "@/lib/cart-context";
 import { toast } from "sonner";
 
 export default function CartPage() {
-  const { items, subtotal, shipping, total, updateQuantity, removeItem } = useCart();
+  const { items, subtotal, shipping, total, discount, finalTotal, appliedCoupon, applyCoupon, removeCoupon, updateQuantity, removeItem } = useCart();
   const [couponCode, setCouponCode] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number; type: string; value: number } | null>(null);
   const [couponError, setCouponError] = useState("");
   const [isApplying, setIsApplying] = useState(false);
-
-  const discount = appliedCoupon?.discount || 0;
-  const finalTotal = Math.max(0, total - discount);
 
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) return;
@@ -30,7 +26,7 @@ export default function CartPage() {
       });
       const data = await res.json();
       if (data.success) {
-        setAppliedCoupon(data.coupon);
+        applyCoupon(data.coupon);
         toast.success(`Coupon "${data.coupon.code}" applied! You save ${formatPrice(data.coupon.discount)}`);
       } else {
         setCouponError(data.error || "Invalid coupon");
@@ -44,7 +40,7 @@ export default function CartPage() {
   };
 
   const handleRemoveCoupon = () => {
-    setAppliedCoupon(null);
+    removeCoupon();
     setCouponCode("");
     setCouponError("");
     toast("Coupon removed");

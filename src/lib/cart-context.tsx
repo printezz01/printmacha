@@ -26,12 +26,25 @@ export interface CartItem {
   selectedSize?: string;
 }
 
+export interface AppliedCoupon {
+  id: string;
+  code: string;
+  type: string;
+  value: number;
+  discount: number;
+}
+
 interface CartContextType {
   items: CartItem[];
   itemCount: number;
   subtotal: number;
   shipping: number;
   total: number;
+  discount: number;
+  finalTotal: number;
+  appliedCoupon: AppliedCoupon | null;
+  applyCoupon: (coupon: AppliedCoupon) => void;
+  removeCoupon: () => void;
   addItem: (product: Product, quantity?: number, size?: string) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -42,6 +55,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const CART_STORAGE_KEY = "printmacha_cart";
+const COUPON_STORAGE_KEY = "printmacha_coupon";
 const FREE_SHIPPING_THRESHOLD = 999;
 const SHIPPING_COST = 99;
 
@@ -55,6 +69,16 @@ function getStoredCart(): CartItem[] {
   }
 }
 
+function getStoredCoupon(): AppliedCoupon | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const stored = localStorage.getItem(COUPON_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : null;
+  } catch {
+    return null;
+  }
+}
+
 function storeCart(items: CartItem[]) {
   if (typeof window === "undefined") return;
   try {
@@ -64,34 +88,54 @@ function storeCart(items: CartItem[]) {
   }
 }
 
+function storeCoupon(coupon: AppliedCoupon | null) {
+  if (typeof window === "undefined") return;
+  try {
+    if (coupon) {
+      localStorage.setItem(COUPON_STORAGE_KEY, JSON.stringify(coupon));
+    } else {
+      localStorage.removeItem(COUPON_STORAGE_KEY);
+    }
+  } catch {
+    // ignore
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
 
   // Hydrate from localStorage on mount
   useEffect(() => {
     setItems(getStoredCart());
+    setAppliedCoupon(getStoredCoupon());
     setIsHydrated(true);
   }, []);
 
-  // Persist to localStorage on change (after hydration)
+  // Persist cart to localStorage on change (after hydration)
   useEffect(() => {
     if (isHydrated) {
       storeCart(items);
     }
   }, [items, isHydrated]);
 
+  // Persist coupon to localStorage on change
+  useEffect(() => {
+    if (isHydrated) {
+      storeCoupon(appliedCoupon);
+    }
+  }, [appliedCoupon, isHydrated]);
+
   const addItem = useCallback((product: Product, quantity = 1, size?: string) => {
     setItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
       if (existing) {
-        // Update quantity, cap at stock
         const newQty = Math.min(existing.quantity + quantity, product.stock_quantity);
         return prev.map((item) =>
           item.product.id === product.id ? { ...item, quantity: newQty } : item
         );
       }
-      // Add new item
       const cartProduct: CartProduct = {
         id: product.id,
         title: product.title,
@@ -128,12 +172,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = useCallback(() => {
     setItems([]);
+    setAppliedCoupon(null);
   }, []);
 
   const isInCart = useCallback(
     (productId: string) => items.some((item) => item.product.id === productId),
     [items]
   );
+
+  const applyCoupon = useCallback((coupon: AppliedCoupon) => {
+    setAppliedCoupon(coupon);
+  }, []);
+
+  const removeCoupon = useCallback(() => {
+    setAppliedCoupon(null);
+  }, []);
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => {
@@ -142,6 +195,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, 0);
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
   const total = subtotal + shipping;
+  const discount = appliedCoupon?.discount || 0;
+  const finalTotal = Math.max(0, total - discount);
 
   return (
     <CartContext.Provider
@@ -151,6 +206,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         subtotal,
         shipping,
         total,
+        discount,
+        finalTotal,
+        appliedCoupon,
+        applyCoupon,
+        removeCoupon,
         addItem,
         removeItem,
         updateQuantity,
