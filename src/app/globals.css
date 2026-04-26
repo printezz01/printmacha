@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* ============================================
    PrintMacha Design System
@@ -46,9 +47,10 @@
   --color-info: #3B82D9;
   
   /* Typography */
-  --font-heading: 'Outfit', system-ui, sans-serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --font-label: 'Inter', system-ui, sans-serif;
   
   /* Spacing & Sizing */
   --radius-sm: 6px;
@@ -83,9 +85,10 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: 1.15;
   color: var(--color-text-primary);
+  letter-spacing: -0.01em;
 }
 
 /* Custom Scrollbar */
@@ -144,6 +147,21 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
 .animate-fade-in {
@@ -445,11 +463,53 @@ h1, h2, h3, h4, h5, h6 {
 .promo-strip {
   background: var(--color-text-primary);
   color: var(--color-surface);
-  padding: 0.625rem 1rem;
-  text-align: center;
+  padding: 0.5rem 0;
   font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.01em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.promo-strip a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.promo-strip a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Craft section numbered items */
+.craft-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  padding: 2rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.craft-number {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  padding-top: 0.25rem;
+  min-width: 2rem;
+}
+
+/* Editorial label */
+.label-overline {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
 /* Admin styles */

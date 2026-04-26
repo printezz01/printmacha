@@ -23,7 +23,7 @@ async function supabaseQuery(table: string, query: string = ""): Promise<any[]> 
         apikey: SUPABASE_KEY!,
         Authorization: `Bearer ${SUPABASE_KEY}`,
       },
-      next: { revalidate: 60 }, // Cache for 60 seconds
+      next: { revalidate: 30, tags: [`table-${table}`] },
     });
 
     if (!res.ok) return [];

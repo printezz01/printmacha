@@ -1,187 +1,203 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  Star,
-  Printer,
-  Leaf,
-  Package,
-  Heart,
-  ShoppingBag,
-  Truck,
-  Shield,
-  RotateCcw,
-} from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import ProductCard from "@/components/store/ProductCard";
 import { getBestSellers, getNewArrivals, getCategories } from "@/lib/data";
 import { sampleReviews } from "@/lib/sample-data";
-import { formatPrice } from "@/lib/utils";
+
+// ─── Category grid data (editorial photo-style cards) ────────────────────────
+const CATEGORY_VISUALS: Record<string, { bg: string; textColor: string }> = {
+  "3d-textured-posters": { bg: "bg-[#E8DDD0]", textColor: "text-[var(--color-text-primary)]" },
+  "f1-collection":       { bg: "bg-[var(--color-text-primary)]", textColor: "text-white" },
+  "desk-accessories":    { bg: "bg-[#EDE6D6]", textColor: "text-[var(--color-text-primary)]" },
+  "posters":             { bg: "bg-[#E0D5C5]", textColor: "text-[var(--color-text-primary)]" },
+};
+
+const DEFAULT_VISUAL = { bg: "bg-[var(--color-warm-200)]", textColor: "text-[var(--color-text-primary)]" };
 
 export default async function HomePage() {
-  const bestSellers = await getBestSellers();
-  const newArrivals = await getNewArrivals();
-  const categories = await getCategories();
+  const bestSellers  = await getBestSellers();
+  const newArrivals  = await getNewArrivals();
+  const categories   = await getCategories();
 
   return (
     <>
-      {/* ====== HERO SECTION ====== */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[var(--color-warm-100)] via-[var(--color-surface)] to-[var(--color-brand-orange-50)]">
-        <div className="container-wide py-16 md:py-24 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in-up">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--color-brand-orange-100)] rounded-full mb-6">
-                <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse"></span>
-                <span className="text-xs font-semibold text-[var(--color-brand-orange-700)] uppercase tracking-wider">
-                  Now Shipping Across India
-                </span>
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-[var(--font-heading)] text-[var(--color-text-primary)] leading-[1.1] mb-6">
-                Art That Stands Out.{" "}
-                <span className="text-[var(--color-accent)]">Literally.</span>
+      {/* =====================================================================
+          HERO — "Art that stands out. Literally."
+          Matches reference: large serif, terracotta accent word, split layout
+      ===================================================================== */}
+      <section className="relative min-h-[88vh] flex items-center bg-[var(--color-surface)] overflow-hidden">
+        {/* Subtle grain texture overlay */}
+        <div className="absolute inset-0 opacity-[0.015] pointer-events-none"
+             style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")" }} />
+
+        <div className="container-wide py-20 md:py-28 lg:py-32 w-full">
+          <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-20 items-center">
+
+            {/* Left: headline + CTA */}
+            <div className="max-w-2xl animate-fade-in-up">
+              <p className="label-overline mb-5">Edition 01 — Bengaluru Studio</p>
+
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[82px] font-bold font-[var(--font-heading)] text-[var(--color-text-primary)] leading-[1.05] tracking-tight mb-6">
+                Art that<br />
+                stands{" "}
+                <em className="not-italic text-[var(--color-accent)]">out.</em>
+                <br />
+                <span className="text-[var(--color-warm-600)]">Literally.</span>
               </h1>
-              <p className="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-lg mb-8 leading-relaxed">
-                Premium 3D printed wall art, textured posters & desk accessories
-                — handcrafted with precision for modern Indian spaces.
+
+              <p className="text-base md:text-lg text-[var(--color-text-secondary)] max-w-md mb-10 leading-relaxed">
+                Sculptural 3D-printed wall art and desk objects.
+                Quietly precise. Made slow. Made in India.
               </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/shop" className="btn btn-primary btn-lg group">
-                  Shop Collection
+
+              <div className="flex flex-wrap items-center gap-4">
+                <Link
+                  href="/shop"
+                  id="hero-shop-cta"
+                  className="btn btn-secondary btn-lg group rounded-full"
+                >
+                  Shop the collection
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link href="/category/f1-collection" className="btn btn-outline btn-lg">
-                  Explore F1 Art
-                </Link>
-              </div>
-
-              {/* Trust indicators */}
-              <div className="flex items-center gap-6 mt-10 pt-8 border-t border-[var(--color-border)]">
-                <div className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]">
-                  <Truck className="w-4 h-4 text-[var(--color-accent)]" />
-                  <span>Free shipping ₹999+</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]">
-                  <Shield className="w-4 h-4 text-[var(--color-accent)]" />
-                  <span>Secure payments</span>
-                </div>
-                <div className="hidden sm:flex items-center gap-2 text-sm text-[var(--color-text-secondary)]">
-                  <RotateCcw className="w-4 h-4 text-[var(--color-accent)]" />
-                  <span>7-day returns</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Hero visual */}
-            <div className="relative hidden lg:block">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-4 pt-8">
-                  <div className="aspect-[3/4] rounded-2xl bg-gradient-to-br from-[var(--color-warm-200)] to-[var(--color-warm-300)] flex items-center justify-center shadow-lg">
-                    <div className="text-center p-6">
-                      <div className="w-20 h-20 mx-auto mb-3 rounded-xl bg-white/60 flex items-center justify-center">
-                        <span className="text-3xl">🎨</span>
-                      </div>
-                      <p className="text-sm font-medium text-[var(--color-warm-700)]">3D Wall Art</p>
-                    </div>
-                  </div>
-                  <div className="aspect-square rounded-2xl bg-gradient-to-br from-[var(--color-brand-orange-100)] to-[var(--color-brand-orange-200)] flex items-center justify-center shadow-lg">
-                    <div className="text-center p-6">
-                      <div className="w-20 h-20 mx-auto mb-3 rounded-xl bg-white/60 flex items-center justify-center">
-                        <span className="text-3xl">🏎️</span>
-                      </div>
-                      <p className="text-sm font-medium text-[var(--color-brand-orange-700)]">F1 Collection</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div className="aspect-square rounded-2xl bg-gradient-to-br from-[var(--color-warm-300)] to-[var(--color-warm-400)] flex items-center justify-center shadow-lg">
-                    <div className="text-center p-6">
-                      <div className="w-20 h-20 mx-auto mb-3 rounded-xl bg-white/60 flex items-center justify-center">
-                        <span className="text-3xl">🖼️</span>
-                      </div>
-                      <p className="text-sm font-medium text-[var(--color-warm-800)]">Posters</p>
-                    </div>
-                  </div>
-                  <div className="aspect-[3/4] rounded-2xl bg-gradient-to-br from-[#1A1714] to-[var(--color-warm-800)] flex items-center justify-center shadow-lg">
-                    <div className="text-center p-6">
-                      <div className="w-20 h-20 mx-auto mb-3 rounded-xl bg-white/10 flex items-center justify-center">
-                        <span className="text-3xl">💡</span>
-                      </div>
-                      <p className="text-sm font-medium text-[var(--color-warm-300)]">Desk Accessories</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ====== CATEGORY CARDS ====== */}
-      <section className="section-gap bg-[var(--color-surface)]">
-        <div className="container-wide">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold font-[var(--font-heading)] mb-2">
-              Shop by Category
-            </h2>
-            <p className="text-[var(--color-text-secondary)]">Find your perfect piece</p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {categories.map((category, i) => {
-              const icons = ["🖼️", "✨", "🏎️", "💡"];
-              const gradients = [
-                "from-[var(--color-warm-200)] to-[var(--color-warm-300)]",
-                "from-[var(--color-brand-orange-50)] to-[var(--color-brand-orange-100)]",
-                "from-[#1A1714] to-[var(--color-warm-800)]",
-                "from-[var(--color-warm-100)] to-[var(--color-warm-200)]",
-              ];
-              const textColors = [
-                "text-[var(--color-warm-800)]",
-                "text-[var(--color-brand-orange-800)]",
-                "text-white",
-                "text-[var(--color-warm-800)]",
-              ];
-
-              return (
                 <Link
-                  key={category.id}
-                  href={`/category/${category.slug}`}
-                  className="group"
-                  id={`category-card-${category.slug}`}
+                  href="/inquiry"
+                  id="hero-customize-cta"
+                  className="flex items-center gap-2 text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
                 >
-                  <div className={`aspect-[4/5] rounded-2xl bg-gradient-to-br ${gradients[i]} p-6 flex flex-col justify-between transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1`}>
-                    <div className="text-4xl md:text-5xl">{icons[i]}</div>
-                    <div>
-                      <h3 className={`text-base md:text-lg font-bold font-[var(--font-heading)] ${textColors[i]} mb-1`}>
-                        {category.name}
-                      </h3>
-                      <div className={`flex items-center gap-1 text-sm ${textColors[i]} opacity-70 group-hover:opacity-100 transition-opacity`}>
-                        <span>Explore</span>
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </div>
+                  <span className="text-[var(--color-accent)]">✦</span>
+                  Customize your wall
                 </Link>
-              );
-            })}
+              </div>
+
+              {/* Make it yours scroll hint */}
+              <div className="mt-14 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xs font-bold font-[var(--font-label)] shrink-0">
+                  ✦
+                </div>
+                <div className="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-[0.15em]">
+                  Make it yours
+                </div>
+              </div>
+            </div>
+
+            {/* Right: hero product image */}
+            <div className="hidden lg:block w-[420px] h-[580px] relative rounded-3xl overflow-hidden shadow-2xl bg-[#EAE0D0]">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-48 h-64 mx-auto rounded-2xl bg-gradient-to-br from-[var(--color-warm-300)] to-[var(--color-warm-400)] flex items-center justify-center shadow-xl">
+                    <span className="text-6xl">🎨</span>
+                  </div>
+                  <p className="mt-4 text-xs uppercase tracking-widest text-[var(--color-warm-600)]">
+                    3D Textured Wall Art
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* ====== BEST SELLERS ====== */}
+      {/* =====================================================================
+          CATEGORIES — "Find Your Piece"
+          Dynamic grid from Supabase, photo-card style matching reference
+      ===================================================================== */}
+      <section id="shop" className="section-gap bg-[var(--color-surface)]">
+        <div className="container-wide">
+          <div className="mb-10">
+            <p className="label-overline mb-2">Collections</p>
+            <div className="flex items-end justify-between">
+              <h2 className="text-3xl md:text-4xl font-bold font-[var(--font-heading)]">
+                Find Your Piece
+              </h2>
+              <Link
+                href="/shop"
+                className="hidden sm:flex items-center gap-1 text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
+                id="categories-view-all"
+              >
+                View all <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+
+          {categories.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+              {categories.slice(0, 4).map((category) => {
+                const visual = CATEGORY_VISUALS[category.slug] || DEFAULT_VISUAL;
+                return (
+                  <Link
+                    key={category.id}
+                    href={`/category/${category.slug}`}
+                    className="group block"
+                    id={`category-${category.slug}`}
+                  >
+                    <div className={`${visual.bg} rounded-2xl aspect-[3/4] p-5 flex flex-col justify-between transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 overflow-hidden relative`}>
+                      {/* Category image placeholder — will show product image if available */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-5 bg-[var(--color-text-primary)] transition-opacity" />
+
+                      <p className={`label-overline ${visual.textColor} opacity-60`}>
+                        {category.name}
+                      </p>
+
+                      <div>
+                        <h3 className={`text-lg font-bold font-[var(--font-heading)] ${visual.textColor} mb-1.5 leading-tight`}>
+                          {category.name}
+                        </h3>
+                        <div className={`flex items-center gap-1 text-sm font-medium ${visual.textColor} opacity-60 group-hover:opacity-100 group-hover:gap-2 transition-all`}>
+                          Explore <ArrowRight className="w-3.5 h-3.5" />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            /* Fallback hardcoded grid */
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+              {[
+                { name: "3D Wall Art",      slug: "3d-textured-posters", bg: "bg-[#E8DDD0]", text: "text-[var(--color-text-primary)]" },
+                { name: "F1 Collection",    slug: "f1-collection",       bg: "bg-[var(--color-text-primary)]", text: "text-white" },
+                { name: "Desk Objects",     slug: "desk-accessories",    bg: "bg-[#EDE6D6]", text: "text-[var(--color-text-primary)]" },
+                { name: "Desk Lamps",       slug: "posters",             bg: "bg-[#E0D5C5]", text: "text-[var(--color-text-primary)]" },
+              ].map((cat) => (
+                <Link key={cat.slug} href={`/category/${cat.slug}`} className="group block" id={`category-fallback-${cat.slug}`}>
+                  <div className={`${cat.bg} rounded-2xl aspect-[3/4] p-5 flex flex-col justify-between transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1`}>
+                    <p className={`label-overline ${cat.text} opacity-60`}>{cat.name}</p>
+                    <div>
+                      <h3 className={`text-lg font-bold font-[var(--font-heading)] ${cat.text} mb-1.5`}>{cat.name}</h3>
+                      <span className={`flex items-center gap-1 text-sm font-medium ${cat.text} opacity-60 group-hover:opacity-100 group-hover:gap-2 transition-all`}>
+                        Explore <ArrowRight className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* =====================================================================
+          BEST SELLERS — "Quietly loved."
+          Dynamic from Supabase, product cards with category label + pricing
+      ===================================================================== */}
       <section className="section-gap bg-[var(--color-surface-muted)]">
         <div className="container-wide">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold font-[var(--font-heading)] mb-1">
-                Best Sellers
+          <div className="mb-10">
+            <p className="label-overline mb-2">Best Sellers</p>
+            <div className="flex items-end justify-between">
+              <h2 className="text-3xl md:text-4xl font-bold font-[var(--font-heading)]">
+                Quietly loved.
               </h2>
-              <p className="text-[var(--color-text-secondary)]">Loved by our community</p>
+              <Link
+                href="/shop?sort=best-selling"
+                id="bestsellers-view-all"
+                className="hidden sm:flex items-center gap-1 text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
+              >
+                View all <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
-            <Link
-              href="/shop?sort=best-selling"
-              className="hidden sm:flex items-center gap-1.5 text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors"
-            >
-              View All <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
 
           <div className="product-grid">
@@ -191,150 +207,142 @@ export default async function HomePage() {
           </div>
 
           <div className="sm:hidden mt-6 text-center">
-            <Link href="/shop?sort=best-selling" className="btn btn-outline">
-              View All Best Sellers
+            <Link href="/shop?sort=best-selling" className="btn btn-outline rounded-full">
+              View all bestsellers
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ====== NEW ARRIVALS ====== */}
-      <section className="section-gap bg-[var(--color-surface)]">
-        <div className="container-wide">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold font-[var(--font-heading)] mb-1">
-                New Arrivals
-              </h2>
-              <p className="text-[var(--color-text-secondary)]">Fresh off the print bed</p>
-            </div>
-            <Link
-              href="/shop?sort=newest"
-              className="hidden sm:flex items-center gap-1.5 text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors"
-            >
-              View All <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="product-grid">
-            {newArrivals.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} listName="New Arrivals" />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ====== VALUE PROPS ====== */}
-      <section className="section-gap bg-[var(--color-text-primary)]">
-        <div className="container-wide">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold font-[var(--font-heading)] text-white mb-2">
-              Why PrintMacha?
-            </h2>
-            <p className="text-[var(--color-warm-400)]">
-              Crafted with purpose, delivered with care
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {[
-              { icon: Printer, title: "Precision Crafted", desc: "Every piece is 3D printed with meticulous attention to detail" },
-              { icon: Leaf, title: "Eco-Friendly", desc: "Made with biodegradable PLA and sustainable practices" },
-              { icon: Package, title: "Secure Packaging", desc: "Each product is carefully packed for safe delivery" },
-              { icon: Heart, title: "Made with Love", desc: "Small batch production ensures quality over quantity" },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="text-center">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-[var(--color-accent)]/10 flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-[var(--color-accent)]" />
-                </div>
-                <h3 className="text-white font-semibold mb-2">{title}</h3>
-                <p className="text-sm text-[var(--color-warm-400)] leading-relaxed">
-                  {desc}
-                </p>
+      {/* =====================================================================
+          NEW ARRIVALS — Dynamic section
+      ===================================================================== */}
+      {newArrivals.length > 0 && (
+        <section className="section-gap bg-[var(--color-surface)]">
+          <div className="container-wide">
+            <div className="mb-10">
+              <p className="label-overline mb-2">Just In</p>
+              <div className="flex items-end justify-between">
+                <h2 className="text-3xl md:text-4xl font-bold font-[var(--font-heading)]">
+                  New arrivals
+                </h2>
+                <Link
+                  href="/shop?sort=newest"
+                  id="new-arrivals-view-all"
+                  className="hidden sm:flex items-center gap-1 text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
+                >
+                  View all <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
-            ))}
+            </div>
+            <div className="product-grid">
+              {newArrivals.slice(0, 4).map((product) => (
+                <ProductCard key={product.id} product={product} listName="New Arrivals" />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* ====== FEATURED COLLECTIONS ====== */}
-      <section className="section-gap bg-[var(--color-surface)]">
+      {/* =====================================================================
+          OUR CRAFT — "Depth, because flat is forgettable."
+          Matches reference exactly: editorial headline + numbered steps
+      ===================================================================== */}
+      <section id="about" className="section-gap bg-[var(--color-surface)]">
         <div className="container-wide">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold font-[var(--font-heading)] mb-2">
-              Featured Collections
-            </h2>
-            <p className="text-[var(--color-text-secondary)]">Curated for your space</p>
-          </div>
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { title: "The F1 Wall", desc: "Complete your motorsport corner with precision circuit art", link: "/category/f1-collection", emoji: "🏎️", bg: "from-[#1A1714] to-[var(--color-warm-800)]", text: "text-white" },
-              { title: "Texture Studio", desc: "3D art that transforms spaces with depth and shadow", link: "/category/3d-textured-posters", emoji: "✨", bg: "from-[var(--color-brand-orange-100)] to-[var(--color-brand-orange-200)]", text: "text-[var(--color-brand-orange-800)]" },
-              { title: "Desk Setup Goals", desc: "Elevate your workspace with crafted accessories", link: "/category/desk-accessories", emoji: "💡", bg: "from-[var(--color-warm-200)] to-[var(--color-warm-300)]", text: "text-[var(--color-warm-800)]" },
-            ].map((collection) => (
-              <Link
-                key={collection.title}
-                href={collection.link}
-                className="group"
-              >
-                <div className={`bg-gradient-to-br ${collection.bg} rounded-2xl p-8 h-64 flex flex-col justify-between transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1`}>
-                  <span className="text-4xl">{collection.emoji}</span>
-                  <div>
-                    <h3 className={`text-xl font-bold font-[var(--font-heading)] ${collection.text} mb-1`}>
-                      {collection.title}
-                    </h3>
-                    <p className={`text-sm ${collection.text} opacity-70 mb-3`}>
-                      {collection.desc}
-                    </p>
-                    <span className={`text-sm font-semibold ${collection.text} flex items-center gap-1 group-hover:gap-2 transition-all`}>
-                      Shop Now <ArrowRight className="w-4 h-4" />
-                    </span>
-                  </div>
+            {/* Left: headline */}
+            <div className="lg:sticky lg:top-28">
+              <p className="label-overline mb-4">Our Craft</p>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-[var(--font-heading)] leading-tight mb-6">
+                Depth, because{" "}
+                <em className="not-italic">flat is{" "}</em>
+                <em className="not-italic text-[var(--color-accent)]">forgettable.</em>
+              </h2>
+              <p className="text-[var(--color-text-secondary)] leading-relaxed max-w-sm">
+                Every piece is printed to order in our Bengaluru studio using plant-based PLA. No moulds. No mass production.
+              </p>
+            </div>
+
+            {/* Right: numbered craft steps */}
+            <div>
+              <div className="craft-step">
+                <span className="craft-number">01</span>
+                <div>
+                  <h3 className="text-xl font-bold font-[var(--font-heading)] mb-2">Layer by layer</h3>
+                  <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
+                    Each piece prints over 12–48 hours. No moulds, no shortcuts.
+                  </p>
                 </div>
-              </Link>
-            ))}
+              </div>
+              <div className="craft-step">
+                <span className="craft-number">02</span>
+                <div>
+                  <h3 className="text-xl font-bold font-[var(--font-heading)] mb-2">Texture you can feel</h3>
+                  <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
+                    Physical depth and tactile finishes that photography can&apos;t fully capture.
+                  </p>
+                </div>
+              </div>
+              <div className="craft-step">
+                <span className="craft-number">03</span>
+                <div>
+                  <h3 className="text-xl font-bold font-[var(--font-heading)] mb-2">Plant-based PLA</h3>
+                  <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
+                    Made from corn starch — sustainable, compostable, and built to last.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* ====== TESTIMONIALS ====== */}
+      {/* =====================================================================
+          REVIEWS — 4.9/5 · 2,400+ buyers
+      ===================================================================== */}
       <section className="section-gap bg-[var(--color-surface-muted)]">
         <div className="container-wide">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold font-[var(--font-heading)] mb-2">
-              What Our Customers Say
-            </h2>
-            <p className="text-[var(--color-text-secondary)]">Real reviews from real people</p>
+          {/* Aggregate rating header */}
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-1 mb-3">
+              {[1,2,3,4,5].map((s) => (
+                <Star key={s} className="w-5 h-5 star-filled fill-current" />
+              ))}
+            </div>
+            <p className="text-3xl font-bold font-[var(--font-heading)] mb-1">4.9 / 5</p>
+            <p className="text-sm text-[var(--color-text-muted)]">
+              from 2,400+ verified buyers
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {sampleReviews.slice(0, 3).map((review) => (
               <div
                 key={review.id}
-                className="bg-[var(--color-surface-elevated)] rounded-xl p-6 border border-[var(--color-border)]"
+                className="bg-[var(--color-surface-elevated)] rounded-2xl p-6 border border-[var(--color-border)]"
               >
-                <div className="flex items-center gap-1 mb-3">
-                  {[1, 2, 3, 4, 5].map((s) => (
+                <div className="flex items-center gap-1 mb-4">
+                  {[1,2,3,4,5].map((s) => (
                     <Star
                       key={s}
-                      className={`w-4 h-4 ${s <= review.rating ? "star-filled fill-current" : "star-empty"}`}
+                      className={`w-3.5 h-3.5 ${s <= review.rating ? "star-filled fill-current" : "star-empty"}`}
                     />
                   ))}
                 </div>
                 <p className="text-sm font-semibold mb-2">{review.title}</p>
-                <p className="text-sm text-[var(--color-text-secondary)] mb-4 leading-relaxed">
+                <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-5">
                   &ldquo;{review.body}&rdquo;
                 </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xs font-bold">
-                      {review.reviewer_name.charAt(0)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">{review.reviewer_name}</p>
-                      <p className="text-xs text-[var(--color-text-muted)]">Verified Buyer</p>
-                    </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-[var(--color-warm-200)] flex items-center justify-center text-[var(--color-warm-700)] text-xs font-bold">
+                    {review.reviewer_name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">{review.reviewer_name}</p>
+                    <p className="text-xs text-[var(--color-text-muted)]">Verified Buyer</p>
                   </div>
                 </div>
               </div>
@@ -343,34 +351,32 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ====== WhatsApp CTA ====== */}
-      <section className="py-12 bg-[#25D366]/5 border-y border-[#25D366]/20">
-        <div className="container-wide">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-[#25D366] rounded-full flex items-center justify-center shrink-0">
-                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-bold font-[var(--font-heading)]">
-                  Need help choosing?
-                </h3>
-                <p className="text-sm text-[var(--color-text-secondary)]">
-                  Chat with us on WhatsApp for personalized recommendations
-                </p>
-              </div>
-            </div>
-            <a
-              href="https://wa.me/919876543210?text=Hi%20PrintMacha!%20I%20need%20help%20choosing%20a%20product."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary whitespace-nowrap"
-            >
-              Chat Now
-            </a>
-          </div>
+      {/* =====================================================================
+          NEWSLETTER CTA — 10% off strip
+      ===================================================================== */}
+      <section className="py-16 bg-[var(--color-text-primary)]">
+        <div className="container-wide text-center">
+          <p className="label-overline text-[var(--color-warm-500)] mb-4">Studio Journal</p>
+          <h2 className="text-3xl md:text-4xl font-bold font-[var(--font-heading)] text-white mb-3">
+            Get 10% off your first order
+          </h2>
+          <p className="text-[var(--color-warm-400)] text-sm mb-8 max-w-sm mx-auto">
+            Behind-the-scenes process, new drops, and exclusive offers delivered to your inbox.
+          </p>
+          <form
+            className="flex gap-3 max-w-sm mx-auto"
+            id="homepage-newsletter"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <input
+              type="email"
+              placeholder="Your email"
+              className="flex-1 px-4 py-3 bg-[var(--color-warm-900)] border border-[var(--color-warm-700)] rounded-lg text-white text-sm placeholder:text-[var(--color-warm-500)] focus:outline-none focus:border-[var(--color-accent)] transition-colors"
+            />
+            <button type="submit" className="btn btn-primary whitespace-nowrap">
+              Subscribe
+            </button>
+          </form>
         </div>
       </section>
     </>
