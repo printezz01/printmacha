@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 import ProductCard from "@/components/store/ProductCard";
+import NewsletterForm from "@/components/store/NewsletterForm";
 import { getBestSellers, getNewArrivals, getCategories } from "@/lib/data";
 import { sampleReviews } from "@/lib/sample-data";
 
@@ -363,20 +364,7 @@ export default async function HomePage() {
           <p className="text-[var(--color-warm-400)] text-sm mb-8 max-w-sm mx-auto">
             Behind-the-scenes process, new drops, and exclusive offers delivered to your inbox.
           </p>
-          <form
-            className="flex gap-3 max-w-sm mx-auto"
-            id="homepage-newsletter"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="email"
-              placeholder="Your email"
-              className="flex-1 px-4 py-3 bg-[var(--color-warm-900)] border border-[var(--color-warm-700)] rounded-lg text-white text-sm placeholder:text-[var(--color-warm-500)] focus:outline-none focus:border-[var(--color-accent)] transition-colors"
-            />
-            <button type="submit" className="btn btn-primary whitespace-nowrap">
-              Subscribe
-            </button>
-          </form>
+          <NewsletterForm id="homepage-newsletter" />
         </div>
       </section>
     </>
