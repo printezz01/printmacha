@@ -63,22 +63,22 @@ export default function ProductCard({ product, listName }: ProductCardProps) {
             </div>
           )}
 
-          {/* Discount badge — top-left terracotta */}
-          {hasDiscount && (
-            <div className="absolute top-3 left-3">
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-[var(--color-accent)] text-white text-[11px] font-semibold font-[var(--font-label)]">
+          {/* Badges — top-left, reference-style rounded pills */}
+          <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+            {hasDiscount && (
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[var(--color-accent)] text-white text-[11px] font-semibold font-[var(--font-label)]">
                 −{discount}%
               </span>
-            </div>
-          )}
-
-          {/* New / bestseller badges */}
-          <div className="absolute top-3 left-3 flex flex-col gap-1.5 mt-px">
-            {!hasDiscount && product.is_new_arrival && (
-              <span className="badge badge-new">New</span>
             )}
-            {!hasDiscount && product.is_best_seller && (
-              <span className="badge badge-bestseller">Bestseller</span>
+            {product.is_best_seller && (
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white border border-[var(--color-border)] text-[var(--color-text-primary)] text-[11px] font-semibold font-[var(--font-label)] uppercase tracking-wider">
+                Bestseller
+              </span>
+            )}
+            {product.is_new_arrival && (
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[var(--color-text-primary)] text-white text-[11px] font-semibold font-[var(--font-label)] uppercase tracking-wider">
+                New
+              </span>
             )}
           </div>
 
@@ -93,11 +93,15 @@ export default function ProductCard({ product, listName }: ProductCardProps) {
             <Heart className={`w-4 h-4 ${inWishlist ? "fill-current" : ""}`} />
           </button>
 
-          {/* Quick Add — slides up from bottom on hover */}
-          <div className="absolute bottom-0 inset-x-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+          {/* Quick Add — centered pill, slides up from bottom on hover */}
+          <div className="absolute bottom-0 inset-x-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
             <button
               onClick={handleAddToCart}
-              className={`w-full btn btn-sm rounded-lg ${inCart ? "btn-outline" : "btn-secondary"}`}
+              className={`w-auto mx-auto flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium shadow-lg transition-all ${
+                inCart
+                  ? "bg-white text-[var(--color-text-primary)] border border-[var(--color-border)]"
+                  : "bg-[var(--color-text-primary)] text-white hover:bg-[var(--color-text-primary)]/90"
+              }`}
             >
               {inCart ? (
                 <><Check className="w-3.5 h-3.5" />In Cart</>

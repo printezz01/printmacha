@@ -1,38 +1,9 @@
 import Link from "next/link";
-import { ArrowRight, Star, RotateCcw, Truck } from "lucide-react";
+import { ArrowRight, Star, Truck, RotateCcw } from "lucide-react";
 import ProductCard from "@/components/store/ProductCard";
 import NewsletterForm from "@/components/store/NewsletterForm";
 import { getBestSellers, getNewArrivals, getCategories } from "@/lib/data";
 import { sampleReviews } from "@/lib/sample-data";
-
-// ─── Category bento config ────────────────────────────────────────────────────
-const BENTO_CATEGORIES = [
-  {
-    slug: "3d-textured-posters",
-    name: "3D Wall Art",
-    pieces: "24 pieces",
-    large: true,
-    bg: "#E4D5C1",
-    emoji: "🏔️",
-  },
-  {
-    slug: "f1-collection",
-    name: "F1 Collection",
-    pieces: "12 pieces",
-    large: false,
-    bg: "#2A2420",
-    light: true,
-    emoji: "🏎️",
-  },
-  {
-    slug: "desk-accessories",
-    name: "Desk Lamps",
-    pieces: "8 pieces",
-    large: false,
-    bg: "#EDE0CC",
-    emoji: "💡",
-  },
-];
 
 export default async function HomePage() {
   const bestSellers = await getBestSellers();
@@ -42,28 +13,34 @@ export default async function HomePage() {
   return (
     <>
       {/* ================================================================
-          HERO — "Art that stands out. out. Literally."
-          Matches reference: split layout, trust badges, product photo panel
+          HERO — pixel-match to Lovable reference
+          "EDITION 01 — BENGALURU STUDIO" label, editorial serif headline,
+          real product photo right panel, trust badges
       ================================================================ */}
-      <section className="relative bg-[var(--color-surface)] min-h-[90vh] flex items-center overflow-hidden">
-        <div className="container-wide py-16 md:py-24 w-full">
-          <div className="grid lg:grid-cols-[1fr_440px] gap-12 lg:gap-16 items-center">
+      <section className="relative bg-[var(--color-surface)] overflow-hidden">
+        <div className="container-wide py-16 md:py-20 lg:py-0 w-full">
+          <div className="grid lg:grid-cols-[1fr_480px] gap-10 lg:gap-0 items-center min-h-[calc(100vh-120px)]">
 
-            {/* Left: headline */}
-            <div className="animate-fade-in-up">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold font-[var(--font-heading)] text-[var(--color-text-primary)] leading-[1.05] tracking-tight mb-6">
+            {/* Left column */}
+            <div className="animate-fade-in-up lg:py-20">
+              {/* Edition label — spaced caps, exactly like reference */}
+              <p className="label-overline mb-6 tracking-[0.15em]">
+                Edition 01 — Bengaluru Studio
+              </p>
+
+              <h1 className="text-[3.2rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.5rem] font-bold font-[var(--font-heading)] text-[var(--color-text-primary)] leading-[1.05] tracking-tight mb-7">
                 Art that stands{" "}
                 <span className="text-[var(--color-accent)]">out.</span>
                 <br />
-                <span className="text-[var(--color-text-primary)]">Literally.</span>
+                Literally.
               </h1>
 
-              <p className="text-base md:text-lg text-[var(--color-text-secondary)] max-w-sm mb-10 leading-relaxed">
+              <p className="text-base md:text-lg text-[var(--color-text-secondary)] max-w-[360px] mb-10 leading-relaxed">
                 Sculptural 3D-printed wall art and desk objects.
                 Quietly precise. Made slow. Made in India.
               </p>
 
-              <div className="flex flex-wrap items-center gap-4 mb-10">
+              <div className="flex flex-wrap items-center gap-4 mb-12">
                 <Link
                   href="/shop"
                   id="hero-shop-cta"
@@ -82,54 +59,54 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              {/* Trust badges row — matches reference exactly */}
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--color-text-muted)]">
+              {/* Trust badges — horizontal row like reference */}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--color-text-muted)]">
                 <span className="flex items-center gap-1.5">
                   <Truck className="w-3.5 h-3.5" />
                   Free shipping over ₹999
                 </span>
-                <span className="hidden sm:inline text-[var(--color-border-strong)]">•</span>
+                <span className="text-[var(--color-warm-300)]">•</span>
                 <span className="flex items-center gap-1.5">
                   <RotateCcw className="w-3.5 h-3.5" />
                   7-day returns
                 </span>
-                <span className="hidden sm:inline text-[var(--color-border-strong)]">•</span>
+                <span className="text-[var(--color-warm-300)]">•</span>
                 <span>Made-to-order</span>
               </div>
             </div>
 
-            {/* Right: product photo panel with overlays */}
-            <div className="hidden lg:block relative h-[540px]">
-              {/* Main photo card */}
-              <div className="absolute inset-0 rounded-3xl overflow-hidden bg-[#E8DDD0] flex items-center justify-center shadow-xl">
-                <div className="text-center">
-                  <div className="w-56 h-72 mx-auto rounded-2xl bg-gradient-to-br from-[var(--color-accent)] via-[#D4652A] to-[#C05520] flex items-center justify-center shadow-2xl opacity-90">
-                    <span className="text-7xl">🏔️</span>
-                  </div>
-                </div>
-
-                {/* "TOPOGRAPHY NO. 04" bottom right */}
-                <div className="absolute bottom-5 right-5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[var(--color-warm-700)]">
-                    Topography No. 04
-                  </p>
-                </div>
-
-                {/* "EDITION OF 200" bottom left */}
-                <div className="absolute bottom-5 left-5 px-2.5 py-1 bg-[var(--color-warm-700)]/10 backdrop-blur-sm rounded-full border border-[var(--color-warm-400)]/30">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-warm-700)]">
-                    Edition of 200
-                  </p>
-                </div>
-              </div>
-
-              {/* "MAKE IT YOURS" floating card */}
-              <div className="absolute bottom-16 left-[-16px] bg-[var(--color-text-primary)] text-white rounded-2xl px-4 py-3 shadow-xl">
+            {/* Right column — real product photo, edge-to-edge like reference */}
+            <div className="hidden lg:block relative h-full min-h-[600px]">
+              <img
+                src="/images/hero-wall-art.png"
+                alt="3D printed terracotta wall sculpture"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              {/* "MAKE IT YOURS" floating overlay — bottom left */}
+              <div className="absolute bottom-24 left-6 bg-[var(--color-text-primary)] text-white rounded-2xl px-5 py-3.5 shadow-xl z-10">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[var(--color-warm-400)] mb-0.5">
                   Make it yours
                 </p>
                 <p className="text-sm font-medium">Custom size · color · finish</p>
               </div>
+              {/* Bottom info bar */}
+              <div className="absolute bottom-0 left-0 right-0 bg-white/80 backdrop-blur-sm px-6 py-3 flex items-center justify-between z-10">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)] border border-[var(--color-border)] px-3 py-1 rounded-full">
+                  Edition of 200
+                </span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">
+                  Topography No. 04
+                </span>
+              </div>
+            </div>
+
+            {/* Mobile hero image */}
+            <div className="lg:hidden rounded-2xl overflow-hidden aspect-[4/5] relative">
+              <img
+                src="/images/hero-wall-art.png"
+                alt="3D printed terracotta wall sculpture"
+                className="w-full h-full object-cover"
+              />
             </div>
 
           </div>
@@ -137,12 +114,11 @@ export default async function HomePage() {
       </section>
 
       {/* ================================================================
-          "FIND YOUR PIECE." — Bento grid layout
-          Matches reference: 1 large left + 2 stacked right
+          "FIND YOUR PIECE." — Bento grid with REAL photos
+          Matches reference: 1 large left + 2 stacked right, with photos
       ================================================================ */}
       <section id="shop" className="section-gap bg-[var(--color-surface)]">
         <div className="container-wide">
-          {/* Header */}
           <div className="flex items-end justify-between mb-8">
             <h2 className="text-4xl md:text-5xl font-bold font-[var(--font-heading)] tracking-tight">
               Find your piece.
@@ -156,95 +132,95 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Bento grid */}
           <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-3 h-auto md:h-[520px]">
-
-            {/* Large left card */}
+            {/* Large left — 3D Wall Art */}
             <Link
               href="/category/3d-textured-posters"
               id="category-bento-3d-wall-art"
-              className="group relative rounded-2xl overflow-hidden bg-[#E4D5C1] flex flex-col justify-end p-6 min-h-[320px] md:h-full"
+              className="group relative rounded-2xl overflow-hidden min-h-[320px] md:h-full"
             >
-              {/* Background emoji / placeholder */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-20 text-[180px]">
-                🏔️
-              </div>
-              <div className="relative z-10 flex items-end justify-between">
+              <img
+                src="/images/category-3d-wall-art.png"
+                alt="3D Wall Art Collection"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
                 <div>
-                  <p className="label-overline text-[var(--color-warm-700)] mb-1">
-                    {categories.find(c => c.slug === "3d-textured-posters")?.name
-                      ? `${Math.max(categories.filter(c => c.slug === "3d-textured-posters").length * 8, bestSellers.length)} pieces`
-                      : "24 pieces"}
-                  </p>
-                  <h3 className="text-2xl font-bold font-[var(--font-heading)] text-[var(--color-text-primary)]">
+                  <p className="label-overline text-white/70 mb-1">24 pieces</p>
+                  <h3 className="text-2xl font-bold font-[var(--font-heading)] text-white">
                     3D Wall Art
                   </h3>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white group-hover:scale-110 transition-transform shadow-md">
+                <div className="w-10 h-10 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white group-hover:scale-110 transition-transform shadow-lg">
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </div>
             </Link>
 
-            {/* Right: 2 stacked cards */}
+            {/* Right column — 2 stacked */}
             <div className="flex flex-col gap-3 h-full">
-
-              {/* F1 Collection — dark card */}
+              {/* F1 Collection */}
               <Link
                 href="/category/f1-collection"
                 id="category-bento-f1"
-                className="group relative rounded-2xl overflow-hidden bg-[#2A2420] flex flex-col justify-end p-5 flex-1 min-h-[200px]"
+                className="group relative rounded-2xl overflow-hidden flex-1 min-h-[200px]"
               >
-                <div className="absolute inset-0 flex items-center justify-center opacity-15 text-[120px]">
-                  🏎️
-                </div>
-                <div className="relative z-10 flex items-end justify-between">
+                <img
+                  src="/images/category-f1-collection.png"
+                  alt="F1 Collection"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between">
                   <div>
-                    <p className="label-overline text-[var(--color-warm-500)] mb-1">12 pieces</p>
+                    <p className="label-overline text-white/70 mb-1">12 pieces</p>
                     <h3 className="text-xl font-bold font-[var(--font-heading)] text-white">
                       F1 Collection
                     </h3>
                   </div>
-                  <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white group-hover:bg-[var(--color-accent)] group-hover:border-[var(--color-accent)] transition-all">
+                  <div className="w-9 h-9 rounded-full bg-white/20 border border-white/30 flex items-center justify-center text-white group-hover:bg-[var(--color-accent)] group-hover:border-[var(--color-accent)] transition-all">
                     <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
               </Link>
 
-              {/* Desk Lamps — warm card */}
+              {/* Desk Lamps */}
               <Link
                 href="/category/desk-accessories"
                 id="category-bento-desk"
-                className="group relative rounded-2xl overflow-hidden bg-[#EDE0CC] flex flex-col justify-end p-5 flex-1 min-h-[200px]"
+                className="group relative rounded-2xl overflow-hidden flex-1 min-h-[200px]"
               >
-                <div className="absolute inset-0 flex items-center justify-center opacity-15 text-[120px]">
-                  💡
-                </div>
-                <div className="relative z-10 flex items-end justify-between">
+                <img
+                  src="/images/category-desk-lamps.png"
+                  alt="Desk Lamps"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between">
                   <div>
-                    <p className="label-overline text-[var(--color-warm-700)] mb-1">8 pieces</p>
-                    <h3 className="text-xl font-bold font-[var(--font-heading)] text-[var(--color-text-primary)]">
+                    <p className="label-overline text-white/70 mb-1">8 pieces</p>
+                    <h3 className="text-xl font-bold font-[var(--font-heading)] text-[var(--color-surface)]">
                       Desk Lamps
                     </h3>
                   </div>
-                  <div className="w-9 h-9 rounded-full bg-[var(--color-text-primary)]/10 flex items-center justify-center text-[var(--color-text-primary)] group-hover:bg-[var(--color-accent)] group-hover:text-white transition-all">
+                  <div className="w-9 h-9 rounded-full bg-white/20 border border-white/30 flex items-center justify-center text-white group-hover:bg-[var(--color-accent)] group-hover:border-[var(--color-accent)] transition-all">
                     <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
               </Link>
-
             </div>
           </div>
         </div>
       </section>
 
       {/* ================================================================
-          "QUIETLY LOVED." — Best sellers product grid
+          "QUIETLY LOVED." — Best sellers
       ================================================================ */}
       <section className="section-gap bg-[var(--color-surface-muted)]">
         <div className="container-wide">
           <div className="flex items-end justify-between mb-10">
-            <h2 className="text-4xl md:text-5xl font-bold font-[var(--font-heading)] tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-bold font-[var(--font-heading)] tracking-tight italic">
               Quietly loved.
             </h2>
             <Link
@@ -301,14 +277,14 @@ export default async function HomePage() {
       )}
 
       {/* ================================================================
-          CRAFT SECTION — "Depth, because flat is forgettable."
-          With stats block: 0.1mm / 100% / 48hr / PLA
+          "DEPTH, BECAUSE FLAT IS FORGETTABLE."
+          Left: headline + description + stats | Right: numbered steps
       ================================================================ */}
       <section id="about" className="section-gap bg-[var(--color-surface)]">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
-            {/* Left: headline + stats */}
+            {/* Left */}
             <div>
               <h2 className="text-4xl md:text-5xl font-bold font-[var(--font-heading)] leading-tight mb-6">
                 Depth, because
@@ -321,13 +297,13 @@ export default async function HomePage() {
                 Tactile, sculptural decor that turns walls into conversations.
               </p>
 
-              {/* Stats grid — matches reference */}
+              {/* Stats grid */}
               <div className="grid grid-cols-2 gap-x-8 gap-y-8 border-t border-[var(--color-border)] pt-10">
                 {[
                   { value: "0.1mm", label: "Print Precision" },
-                  { value: "100%",  label: "Made in India" },
-                  { value: "48hr",  label: "Print to Ship" },
-                  { value: "PLA",   label: "Biodegradable" },
+                  { value: "100%", label: "Made in India" },
+                  { value: "48hr", label: "Print to Ship" },
+                  { value: "PLA", label: "Biodegradable" },
                 ].map(({ value, label }) => (
                   <div key={label}>
                     <p className="text-3xl md:text-4xl font-bold font-[var(--font-heading)] text-[var(--color-text-primary)] mb-1">
@@ -369,13 +345,12 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
       {/* ================================================================
-          REVIEWS — 4.9/5
+          REVIEWS
       ================================================================ */}
       <section className="section-gap bg-[var(--color-surface-muted)]">
         <div className="container-wide">
@@ -397,10 +372,7 @@ export default async function HomePage() {
               >
                 <div className="flex items-center gap-1 mb-4">
                   {[1,2,3,4,5].map((s) => (
-                    <Star
-                      key={s}
-                      className={`w-3.5 h-3.5 ${s <= review.rating ? "star-filled fill-current" : "star-empty"}`}
-                    />
+                    <Star key={s} className={`w-3.5 h-3.5 ${s <= review.rating ? "star-filled fill-current" : "star-empty"}`} />
                   ))}
                 </div>
                 <p className="text-sm font-semibold mb-2">{review.title}</p>
