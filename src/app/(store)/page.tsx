@@ -28,7 +28,7 @@ export default async function HomePage() {
                 Edition 01 — Bengaluru Studio
               </p>
 
-              <h1 className="text-[3.2rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.5rem] font-bold font-[var(--font-heading)] text-[var(--color-text-primary)] leading-[1.05] tracking-tight mb-7">
+              <h1 className="text-[3.2rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.5rem] font-bold font-heading text-[var(--color-text-primary)] leading-[1.05] tracking-tight mb-7">
                 Art that stands{" "}
                 <span className="text-[var(--color-accent)]">out.</span>
                 <br />
@@ -120,7 +120,7 @@ export default async function HomePage() {
       <section id="shop" className="section-gap bg-[var(--color-surface)]">
         <div className="container-wide">
           <div className="flex items-end justify-between mb-8">
-            <h2 className="text-4xl md:text-5xl font-bold font-[var(--font-heading)] tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-bold font-heading tracking-tight">
               Find your piece.
             </h2>
             <Link
@@ -148,7 +148,7 @@ export default async function HomePage() {
               <div className="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
                 <div>
                   <p className="label-overline text-white/70 mb-1">24 pieces</p>
-                  <h3 className="text-2xl font-bold font-[var(--font-heading)] text-white">
+                  <h3 className="text-2xl font-bold font-heading text-white">
                     3D Wall Art
                   </h3>
                 </div>
@@ -175,7 +175,7 @@ export default async function HomePage() {
                 <div className="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between">
                   <div>
                     <p className="label-overline text-white/70 mb-1">12 pieces</p>
-                    <h3 className="text-xl font-bold font-[var(--font-heading)] text-white">
+                    <h3 className="text-xl font-bold font-heading text-white">
                       F1 Collection
                     </h3>
                   </div>
@@ -200,7 +200,7 @@ export default async function HomePage() {
                 <div className="absolute bottom-0 left-0 right-0 p-5 flex items-end justify-between">
                   <div>
                     <p className="label-overline text-white/70 mb-1">8 pieces</p>
-                    <h3 className="text-xl font-bold font-[var(--font-heading)] text-[var(--color-surface)]">
+                    <h3 className="text-xl font-bold font-heading text-[var(--color-surface)]">
                       Desk Lamps
                     </h3>
                   </div>
@@ -220,7 +220,7 @@ export default async function HomePage() {
       <section className="section-gap bg-[var(--color-surface-muted)]">
         <div className="container-wide">
           <div className="flex items-end justify-between mb-10">
-            <h2 className="text-4xl md:text-5xl font-bold font-[var(--font-heading)] tracking-tight italic">
+            <h2 className="text-4xl md:text-5xl font-bold font-heading tracking-tight italic">
               Quietly loved.
             </h2>
             <Link
@@ -255,7 +255,7 @@ export default async function HomePage() {
             <div className="flex items-end justify-between mb-10">
               <div>
                 <p className="label-overline mb-2">Just In</p>
-                <h2 className="text-4xl md:text-5xl font-bold font-[var(--font-heading)] tracking-tight">
+                <h2 className="text-4xl md:text-5xl font-bold font-heading tracking-tight">
                   New arrivals
                 </h2>
               </div>
@@ -286,7 +286,7 @@ export default async function HomePage() {
 
             {/* Left */}
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold font-[var(--font-heading)] leading-tight mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold font-heading leading-tight mb-6">
                 Depth, because
                 <br />
                 flat is{" "}
@@ -306,7 +306,7 @@ export default async function HomePage() {
                   { value: "PLA", label: "Biodegradable" },
                 ].map(({ value, label }) => (
                   <div key={label}>
-                    <p className="text-3xl md:text-4xl font-bold font-[var(--font-heading)] text-[var(--color-text-primary)] mb-1">
+                    <p className="text-3xl md:text-4xl font-bold font-heading text-[var(--color-text-primary)] mb-1">
                       {value}
                     </p>
                     <p className="label-overline">{label}</p>
@@ -320,7 +320,7 @@ export default async function HomePage() {
               <div className="craft-step">
                 <span className="craft-number">01</span>
                 <div>
-                  <h3 className="text-xl font-bold font-[var(--font-heading)] mb-2">Layer by layer</h3>
+                  <h3 className="text-xl font-bold font-heading mb-2">Layer by layer</h3>
                   <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
                     Each piece prints over 12–48 hours. No moulds, no shortcuts.
                   </p>
@@ -329,7 +329,7 @@ export default async function HomePage() {
               <div className="craft-step">
                 <span className="craft-number">02</span>
                 <div>
-                  <h3 className="text-xl font-bold font-[var(--font-heading)] mb-2">Texture you can feel</h3>
+                  <h3 className="text-xl font-bold font-heading mb-2">Texture you can feel</h3>
                   <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
                     True 3D relief — light moves across every ridge.
                   </p>
@@ -338,7 +338,7 @@ export default async function HomePage() {
               <div className="craft-step">
                 <span className="craft-number">03</span>
                 <div>
-                  <h3 className="text-xl font-bold font-[var(--font-heading)] mb-2">Plant-based PLA</h3>
+                  <h3 className="text-xl font-bold font-heading mb-2">Plant-based PLA</h3>
                   <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
                     Biodegradable cornstarch filament. Premium feel, gentle footprint.
                   </p>
@@ -360,7 +360,7 @@ export default async function HomePage() {
                 <Star key={s} className="w-5 h-5 star-filled fill-current" />
               ))}
             </div>
-            <p className="text-3xl font-bold font-[var(--font-heading)] mb-1">4.9 / 5</p>
+            <p className="text-3xl font-bold font-heading mb-1">4.9 / 5</p>
             <p className="text-sm text-[var(--color-text-muted)]">from 2,400+ verified buyers</p>
           </div>
 
@@ -400,7 +400,7 @@ export default async function HomePage() {
       <section className="py-16 bg-[var(--color-text-primary)]">
         <div className="container-wide text-center">
           <p className="label-overline text-[var(--color-warm-500)] mb-4">Studio Journal</p>
-          <h2 className="text-3xl md:text-4xl font-bold font-[var(--font-heading)] text-white mb-3">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-white mb-3">
             Get 10% off your first order
           </h2>
           <p className="text-[var(--color-warm-400)] text-sm mb-8 max-w-sm mx-auto">

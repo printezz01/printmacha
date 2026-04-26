@@ -16,7 +16,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-6">Orders</h1>
+      <h1 className="text-2xl font-bold font-heading mb-6">Orders</h1>
 
       <div className="flex items-center gap-3 mb-6">
         <div className="relative flex-1 max-w-sm">

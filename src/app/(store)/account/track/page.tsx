@@ -8,7 +8,7 @@ export default function TrackOrderPage() {
   return (
     <div className="container-wide py-8 md:py-12">
       <div className="max-w-xl mx-auto text-center">
-        <h1 className="text-3xl font-bold font-[var(--font-heading)] mb-4">Track Your Order</h1>
+        <h1 className="text-3xl font-bold font-heading mb-4">Track Your Order</h1>
         <p className="text-[var(--color-text-secondary)] mb-8">
           Enter your order number to see real-time tracking updates.
         </p>

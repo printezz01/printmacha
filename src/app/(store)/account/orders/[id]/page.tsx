@@ -46,7 +46,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold font-[var(--font-heading)]">Order {order.order_number}</h1>
+          <h1 className="text-2xl font-bold font-heading">Order {order.order_number}</h1>
           <p className="text-sm text-[var(--color-text-muted)]">Placed on {date}</p>
         </div>
         <span className={`status-pill status-${order.status}`}>{order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>

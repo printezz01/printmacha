@@ -6,7 +6,7 @@ export default function ReturnsPage() {
   return (
     <div className="container-wide py-12 md:py-20">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold font-[var(--font-heading)] mb-2">Return & Refund Policy</h1>
+        <h1 className="text-4xl font-bold font-heading mb-2">Return & Refund Policy</h1>
         <p className="text-lg text-[var(--color-text-secondary)] mb-8">Last updated: April 2026</p>
 
         <div className="space-y-6 text-[var(--color-text-secondary)] leading-relaxed">

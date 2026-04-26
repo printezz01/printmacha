@@ -47,7 +47,7 @@ export default async function OrdersPage() {
         <span className="text-[var(--color-text-primary)] font-medium">Orders</span>
       </nav>
 
-      <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-6">My Orders</h1>
+      <h1 className="text-2xl font-bold font-heading mb-6">My Orders</h1>
 
       <div className="space-y-4">
         {orders.map((order) => (

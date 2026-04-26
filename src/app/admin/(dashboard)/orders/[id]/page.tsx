@@ -10,7 +10,7 @@ export default async function AdminOrderDetailPage({ params }: { params: Promise
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold font-[var(--font-heading)]">Order {id}</h1>
+          <h1 className="text-2xl font-bold font-heading">Order {id}</h1>
           <p className="text-sm text-[var(--color-text-muted)]">April 15, 2026</p>
         </div>
         <div className="flex gap-3">

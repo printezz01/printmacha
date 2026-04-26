@@ -54,11 +54,11 @@ function LoginForm() {
             <div className="w-10 h-10 rounded-xl bg-[var(--color-accent)] flex items-center justify-center">
               <span className="text-white font-bold text-lg">P</span>
             </div>
-            <span className="text-2xl font-bold font-[var(--font-heading)]">
+            <span className="text-2xl font-bold font-heading">
               Print<span className="text-[var(--color-accent)]">Macha</span>
             </span>
           </Link>
-          <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-2">
+          <h1 className="text-2xl font-bold font-heading mb-2">
             Welcome back
           </h1>
           <p className="text-[var(--color-text-secondary)]">

@@ -81,9 +81,9 @@ function StoreHeader() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group" id="site-logo">
               <div className="w-8 h-8 rounded-lg bg-[var(--color-text-primary)] flex items-center justify-center">
-                <span className="text-white font-bold text-sm font-[var(--font-label)]">P</span>
+                <span className="text-white font-bold text-sm font-label">P</span>
               </div>
-              <span className="text-lg md:text-xl font-bold font-[var(--font-label)] tracking-tight text-[var(--color-text-primary)]">
+              <span className="text-lg md:text-xl font-bold font-label tracking-tight text-[var(--color-text-primary)]">
                 printmacha
               </span>
             </Link>
@@ -185,7 +185,7 @@ function StoreFooter() {
         <div className="container-wide py-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <h3 className="text-xl font-bold text-white font-[var(--font-heading)] mb-1">
+              <h3 className="text-xl font-bold text-white font-heading mb-1">
                 Join the studio
               </h3>
               <p className="text-[var(--color-warm-400)] text-sm">
@@ -205,9 +205,9 @@ function StoreFooter() {
           <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-full bg-[var(--color-accent)] flex items-center justify-center">
-                <span className="text-white font-bold text-sm font-[var(--font-label)]">P</span>
+                <span className="text-white font-bold text-sm font-label">P</span>
               </div>
-              <span className="text-base font-bold text-white font-[var(--font-label)]">printmacha</span>
+              <span className="text-base font-bold text-white font-label">printmacha</span>
             </div>
             <p className="text-sm text-[var(--color-warm-400)] mb-6 max-w-[200px] leading-relaxed">
               Sculptural 3D-printed wall art and desk decor. Designed and made in India.
@@ -231,7 +231,7 @@ function StoreFooter() {
 
           {/* Shop */}
           <div>
-            <h4 className="text-[10px] font-semibold text-white mb-4 uppercase tracking-[0.14em] font-[var(--font-label)]">Shop</h4>
+            <h4 className="text-[10px] font-semibold text-white mb-4 uppercase tracking-[0.14em] font-label">Shop</h4>
             <ul className="space-y-2.5">
               <li><Link href="/category/3d-textured-posters" className="text-sm text-[var(--color-warm-400)] hover:text-white transition-colors">3D Wall Art</Link></li>
               <li><Link href="/category/f1-collection" className="text-sm text-[var(--color-warm-400)] hover:text-white transition-colors">F1 Collection</Link></li>
@@ -243,7 +243,7 @@ function StoreFooter() {
 
           {/* Help */}
           <div>
-            <h4 className="text-[10px] font-semibold text-white mb-4 uppercase tracking-[0.14em] font-[var(--font-label)]">Help</h4>
+            <h4 className="text-[10px] font-semibold text-white mb-4 uppercase tracking-[0.14em] font-label">Help</h4>
             <ul className="space-y-2.5">
               <li><Link href="/contact" className="text-sm text-[var(--color-warm-400)] hover:text-white transition-colors">Contact</Link></li>
               <li><Link href="/policies/shipping" className="text-sm text-[var(--color-warm-400)] hover:text-white transition-colors">Shipping</Link></li>
@@ -255,7 +255,7 @@ function StoreFooter() {
 
           {/* Studio */}
           <div>
-            <h4 className="text-[10px] font-semibold text-white mb-4 uppercase tracking-[0.14em] font-[var(--font-label)]">Studio</h4>
+            <h4 className="text-[10px] font-semibold text-white mb-4 uppercase tracking-[0.14em] font-label">Studio</h4>
             <ul className="space-y-2.5">
               <li><Link href="/about" className="text-sm text-[var(--color-warm-400)] hover:text-white transition-colors">Our story</Link></li>
               <li><Link href="/about#process" className="text-sm text-[var(--color-warm-400)] hover:text-white transition-colors">The print process</Link></li>
@@ -266,7 +266,7 @@ function StoreFooter() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-[10px] font-semibold text-white mb-4 uppercase tracking-[0.14em] font-[var(--font-label)]">Contact</h4>
+            <h4 className="text-[10px] font-semibold text-white mb-4 uppercase tracking-[0.14em] font-label">Contact</h4>
             <ul className="space-y-2.5">
               <li>
                 <a href="mailto:hello@printmacha.in" className="text-sm text-[var(--color-warm-400)] hover:text-white transition-colors">

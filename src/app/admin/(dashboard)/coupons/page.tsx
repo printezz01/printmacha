@@ -99,7 +99,7 @@ export default function AdminCouponsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold font-[var(--font-heading)]">Coupons</h1>
+        <h1 className="text-2xl font-bold font-heading">Coupons</h1>
         <button 
           onClick={() => { setEditingCoupon(null); setIsModalOpen(true); }}
           className="btn btn-primary"
@@ -177,7 +177,7 @@ export default function AdminCouponsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
             <div className="p-6 border-b border-[var(--color-border)] flex items-center justify-between">
-              <h2 className="text-xl font-bold font-[var(--font-heading)]">
+              <h2 className="text-xl font-bold font-heading">
                 {editingCoupon ? "Edit Coupon" : "Create New Coupon"}
               </h2>
               <button onClick={() => setIsModalOpen(false)} className="text-[var(--color-text-muted)] hover:text-black">

@@ -38,7 +38,7 @@ export default function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-6">Dashboard</h1>
+      <h1 className="text-2xl font-bold font-heading mb-6">Dashboard</h1>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -61,7 +61,7 @@ export default function AdminDashboardPage() {
         {/* Recent Orders */}
         <div className="lg:col-span-2 bg-white rounded-xl border border-[var(--color-border)]">
           <div className="p-5 border-b border-[var(--color-border)] flex items-center justify-between">
-            <h2 className="font-bold font-[var(--font-heading)]">Recent Orders</h2>
+            <h2 className="font-bold font-heading">Recent Orders</h2>
             <a href="/admin/orders" className="text-sm text-[var(--color-accent)] font-medium hover:underline">View All</a>
           </div>
           <div className="divide-y divide-[var(--color-border)]">
@@ -85,7 +85,7 @@ export default function AdminDashboardPage() {
         {/* Top Products */}
         <div className="bg-white rounded-xl border border-[var(--color-border)]">
           <div className="p-5 border-b border-[var(--color-border)]">
-            <h2 className="font-bold font-[var(--font-heading)]">Top Products</h2>
+            <h2 className="font-bold font-heading">Top Products</h2>
           </div>
           <div className="divide-y divide-[var(--color-border)]">
             {topProducts.map((product, i) => (

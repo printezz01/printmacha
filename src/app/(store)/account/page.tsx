@@ -30,7 +30,7 @@ export default async function AccountPage() {
 
   return (
     <div className="container-wide py-8 md:py-12">
-      <h1 className="text-3xl font-bold font-[var(--font-heading)] mb-8">My Account</h1>
+      <h1 className="text-3xl font-bold font-heading mb-8">My Account</h1>
 
       <div className="grid md:grid-cols-3 gap-6">
         {/* Profile Card */}

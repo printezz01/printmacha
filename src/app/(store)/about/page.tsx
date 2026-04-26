@@ -11,7 +11,7 @@ export default function AboutPage() {
     <div className="container-wide py-12 md:py-20">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold font-[var(--font-heading)] mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
             About <span className="text-[var(--color-accent)]">PrintMacha</span>
           </h1>
           <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed">
@@ -21,7 +21,7 @@ export default function AboutPage() {
 
         <div className="space-y-8 text-[var(--color-text-secondary)] leading-relaxed">
           <section>
-            <h2 className="text-2xl font-bold font-[var(--font-heading)] text-[var(--color-text-primary)] mb-4">Our Story</h2>
+            <h2 className="text-2xl font-bold font-heading text-[var(--color-text-primary)] mb-4">Our Story</h2>
             <p>
               PrintMacha was born from a simple frustration: why does wall art have to be flat? We started experimenting with 3D printing to create art that literally stands out — pieces with depth, shadow play, and tactile beauty.
             </p>
@@ -44,7 +44,7 @@ export default function AboutPage() {
           </div>
 
           <section>
-            <h2 className="text-2xl font-bold font-[var(--font-heading)] text-[var(--color-text-primary)] mb-6">What Sets Us Apart</h2>
+            <h2 className="text-2xl font-bold font-heading text-[var(--color-text-primary)] mb-6">What Sets Us Apart</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 { icon: Printer, title: "3D Precision", desc: "Each product is printed with cutting-edge 3D printing technology for flawless detail." },

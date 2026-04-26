@@ -23,7 +23,7 @@ export default function ContactPage() {
     <div className="container-wide py-12 md:py-20">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold font-[var(--font-heading)] mb-3">Get in Touch</h1>
+          <h1 className="text-4xl font-bold font-heading mb-3">Get in Touch</h1>
           <p className="text-lg text-[var(--color-text-secondary)]">
             Have a question, feedback, or just want to say hi? We&apos;d love to hear from you.
           </p>
@@ -49,7 +49,7 @@ export default function ContactPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)]">
-          <h2 className="text-xl font-bold font-[var(--font-heading)] mb-6">Send us a message</h2>
+          <h2 className="text-xl font-bold font-heading mb-6">Send us a message</h2>
           <div className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div>

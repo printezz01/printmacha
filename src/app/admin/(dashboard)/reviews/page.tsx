@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Reviews | Admin" };
 export default function AdminReviewsPage() {
   return (
     <div>
-      <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-6">Reviews</h1>
+      <h1 className="text-2xl font-bold font-heading mb-6">Reviews</h1>
       <div className="space-y-4">
         {sampleReviews.map((review) => (
           <div key={review.id} className="bg-white rounded-xl border border-[var(--color-border)] p-5 flex items-start gap-4">

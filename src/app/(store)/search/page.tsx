@@ -46,7 +46,7 @@ export default function SearchPage() {
   return (
     <div className="container-wide py-8 md:py-12">
       <div className="max-w-2xl mx-auto mb-12">
-        <h1 className="text-3xl font-bold font-[var(--font-heading)] text-center mb-6">
+        <h1 className="text-3xl font-bold font-heading text-center mb-6">
           Search Products
         </h1>
         <div className="relative">

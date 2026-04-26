@@ -72,7 +72,7 @@ export default function AdminContentPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-6">Homepage Content</h1>
+      <h1 className="text-2xl font-bold font-heading mb-6">Homepage Content</h1>
       <p className="text-[var(--color-text-secondary)] mb-6">
         Manage homepage sections. Edit titles, subtitles, and toggle visibility.
       </p>
@@ -121,7 +121,7 @@ export default function AdminContentPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl">
             <div className="p-6 border-b border-[var(--color-border)] flex items-center justify-between">
-              <h2 className="text-xl font-bold font-[var(--font-heading)] uppercase">
+              <h2 className="text-xl font-bold font-heading uppercase">
                 Edit {editingSection.type} Section
               </h2>
               <button onClick={() => setIsModalOpen(false)} className="text-[var(--color-text-muted)] hover:text-black">

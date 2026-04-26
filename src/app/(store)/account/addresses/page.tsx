@@ -18,7 +18,7 @@ export default function AddressesPage() {
         <span className="text-[var(--color-text-primary)] font-medium">Addresses</span>
       </nav>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold font-[var(--font-heading)]">My Addresses</h1>
+        <h1 className="text-2xl font-bold font-heading">My Addresses</h1>
         <button className="btn btn-primary btn-sm"><Plus className="w-4 h-4" /> Add Address</button>
       </div>
       <div className="grid md:grid-cols-2 gap-4">

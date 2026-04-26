@@ -6,7 +6,7 @@ export default function ShippingPolicyPage() {
   return (
     <div className="container-wide py-12 md:py-20">
       <div className="max-w-3xl mx-auto prose prose-warm">
-        <h1 className="text-4xl font-bold font-[var(--font-heading)]">Shipping Policy</h1>
+        <h1 className="text-4xl font-bold font-heading">Shipping Policy</h1>
         <p className="text-lg text-[var(--color-text-secondary)]">Last updated: April 2026</p>
 
         <h2 className="text-xl font-bold mt-8 mb-3">Shipping Coverage</h2>

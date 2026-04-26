@@ -22,7 +22,7 @@ export default function InquiryPage() {
     <div className="container-wide py-12 md:py-20">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold font-[var(--font-heading)] mb-3">Bulk & Custom Orders</h1>
+          <h1 className="text-4xl font-bold font-heading mb-3">Bulk & Custom Orders</h1>
           <p className="text-lg text-[var(--color-text-secondary)]">
             Have a custom project in mind? Need products in bulk? Let&apos;s make it happen.
           </p>

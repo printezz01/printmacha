@@ -24,7 +24,7 @@ export default function FAQPage() {
     <div className="container-wide py-12 md:py-20">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold font-[var(--font-heading)] mb-3">
+          <h1 className="text-4xl font-bold font-heading mb-3">
             Frequently Asked Questions
           </h1>
           <p className="text-lg text-[var(--color-text-secondary)]">

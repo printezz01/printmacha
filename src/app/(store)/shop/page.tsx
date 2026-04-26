@@ -75,7 +75,7 @@ export default function ShopPage() {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold font-[var(--font-heading)] mb-2">
+        <h1 className="text-3xl md:text-4xl font-bold font-heading mb-2">
           All Products
         </h1>
         <p className="text-[var(--color-text-secondary)]">

@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
           <div className="w-12 h-12 rounded-xl bg-[var(--color-accent)] flex items-center justify-center mx-auto mb-4">
             <span className="text-white font-bold text-xl">P</span>
           </div>
-          <h1 className="text-2xl font-bold text-white font-[var(--font-heading)]">
+          <h1 className="text-2xl font-bold text-white font-heading">
             Admin Dashboard
           </h1>
           <p className="text-[var(--color-warm-400)] text-sm mt-1">

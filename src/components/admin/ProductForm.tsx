@@ -173,7 +173,7 @@ export default function ProductForm({ productId, initialData }: ProductFormProps
           <Link href="/admin/products" className="btn btn-ghost btn-icon">
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <h1 className="text-2xl font-bold font-[var(--font-heading)]">
+          <h1 className="text-2xl font-bold font-heading">
             {isEditing ? "Edit Product" : "New Product"}
           </h1>
         </div>

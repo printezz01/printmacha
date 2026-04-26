@@ -13,7 +13,7 @@ export default function AdminCustomersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-6">Customers</h1>
+      <h1 className="text-2xl font-bold font-heading mb-6">Customers</h1>
       <div className="relative max-w-sm mb-6">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-text-muted)]" />
         <input type="text" className="input pl-10" placeholder="Search customers..." />

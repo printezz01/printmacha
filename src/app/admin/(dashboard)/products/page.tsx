@@ -111,7 +111,7 @@ export default function AdminProductsPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold font-[var(--font-heading)]">Products</h1>
+          <h1 className="text-2xl font-bold font-heading">Products</h1>
           {usingSampleData && (
             <p className="text-xs text-[var(--color-warning)] mt-1">⚠ Showing sample data — connect Supabase to see live data</p>
           )}

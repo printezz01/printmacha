@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import { Toaster } from "sonner";
 import Script from "next/script";
 import Providers from "@/components/Providers";
@@ -11,10 +11,12 @@ const inter = Inter({
   display: "swap",
 });
 
-const outfit = Outfit({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-playfair",
   display: "swap",
+  weight: ["400", "700", "900"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -67,7 +69,7 @@ export default function RootLayout({
   const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <head>
         {GA_ID && (
           <>
@@ -98,7 +100,7 @@ export default function RootLayout({
               background: "var(--color-surface-elevated)",
               border: "1px solid var(--color-border)",
               color: "var(--color-text-primary)",
-              fontFamily: "var(--font-body)",
+              fontFamily: "var(--font-inter)",
             },
           }}
         />

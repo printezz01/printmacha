@@ -44,7 +44,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
       {/* Category Header */}
       <div className="mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold font-[var(--font-heading)] mb-3">
+        <h1 className="text-3xl md:text-4xl font-bold font-heading mb-3">
           {category.name}
         </h1>
         {category.description && (

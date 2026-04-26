@@ -141,7 +141,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
             </Link>
           )}
 
-          <h1 className="text-2xl md:text-3xl font-bold font-[var(--font-heading)] mt-2 mb-3">
+          <h1 className="text-2xl md:text-3xl font-bold font-heading mt-2 mb-3">
             {product.title}
           </h1>
 
@@ -324,7 +324,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
       {/* Full Description */}
       <div className="mt-16 border-t border-[var(--color-border)] pt-12">
         <div className="max-w-3xl">
-          <h2 className="text-xl font-bold font-[var(--font-heading)] mb-4">About this product</h2>
+          <h2 className="text-xl font-bold font-heading mb-4">About this product</h2>
           <div className="prose prose-warm text-[var(--color-text-secondary)] leading-relaxed">
             <p>{product.long_description}</p>
           </div>
@@ -333,7 +333,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
 
       {/* Reviews Section */}
       <div className="mt-16 border-t border-[var(--color-border)] pt-12">
-        <h2 className="text-xl font-bold font-[var(--font-heading)] mb-6">Customer Reviews</h2>
+        <h2 className="text-xl font-bold font-heading mb-6">Customer Reviews</h2>
         <div className="grid md:grid-cols-2 gap-6">
           {sampleReviews.slice(0, 4).map((review) => (
             <div key={review.id} className="p-5 rounded-xl border border-[var(--color-border)]">
@@ -359,7 +359,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
       {/* Related Products */}
       {relatedProducts.length > 0 && (
         <div className="mt-16 border-t border-[var(--color-border)] pt-12">
-          <h2 className="text-xl font-bold font-[var(--font-heading)] mb-6">You may also like</h2>
+          <h2 className="text-xl font-bold font-heading mb-6">You may also like</h2>
           <div className="product-grid">
             {relatedProducts.map((p) => (
               <ProductCard key={p.id} product={p} listName="Related Products" />

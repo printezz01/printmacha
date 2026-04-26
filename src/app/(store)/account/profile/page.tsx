@@ -12,7 +12,7 @@ export default function ProfilePage() {
         <ChevronRight className="w-3 h-3" />
         <span className="text-[var(--color-text-primary)] font-medium">Profile</span>
       </nav>
-      <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-6">My Profile</h1>
+      <h1 className="text-2xl font-bold font-heading mb-6">My Profile</h1>
       <div className="max-w-xl space-y-6 p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)]">
         <div>
           <label className="text-sm font-medium mb-1.5 block">Full Name</label>

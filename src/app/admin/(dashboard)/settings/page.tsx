@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Settings | Admin" };
 export default function AdminSettingsPage() {
   return (
     <div>
-      <h1 className="text-2xl font-bold font-[var(--font-heading)] mb-6">Store Settings</h1>
+      <h1 className="text-2xl font-bold font-heading mb-6">Store Settings</h1>
 
       <div className="space-y-6 max-w-2xl">
         {/* General */}

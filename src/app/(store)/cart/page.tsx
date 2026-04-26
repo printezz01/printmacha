@@ -48,7 +48,7 @@ export default function CartPage() {
 
   return (
     <div className="container-wide py-8 md:py-12">
-      <h1 className="text-3xl font-bold font-[var(--font-heading)] mb-8">Shopping Cart</h1>
+      <h1 className="text-3xl font-bold font-heading mb-8">Shopping Cart</h1>
 
       {items.length > 0 ? (
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
@@ -118,7 +118,7 @@ export default function CartPage() {
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] space-y-4">
-              <h2 className="text-lg font-bold font-[var(--font-heading)]">Order Summary</h2>
+              <h2 className="text-lg font-bold font-heading">Order Summary</h2>
 
               {/* Coupon */}
               {appliedCoupon ? (

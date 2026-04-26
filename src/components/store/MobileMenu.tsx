@@ -29,7 +29,7 @@ export default function MobileMenu() {
           {/* Slide-in Panel */}
           <div className="fixed top-0 left-0 bottom-0 w-[280px] bg-[var(--color-surface-elevated)] z-50 lg:hidden shadow-xl animate-slide-right">
             <div className="p-4 border-b border-[var(--color-border)] flex items-center justify-between">
-              <span className="text-base font-bold font-[var(--font-label)] tracking-tight">printmacha</span>
+              <span className="text-base font-bold font-label tracking-tight">printmacha</span>
               <button onClick={() => setIsOpen(false)} className="btn-icon btn-ghost" aria-label="Close menu">
                 <X className="w-5 h-5" />
               </button>

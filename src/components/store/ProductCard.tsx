@@ -66,17 +66,17 @@ export default function ProductCard({ product, listName }: ProductCardProps) {
           {/* Badges — top-left, reference-style rounded pills */}
           <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
             {hasDiscount && (
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[var(--color-accent)] text-white text-[11px] font-semibold font-[var(--font-label)]">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[var(--color-accent)] text-white text-[11px] font-semibold font-label">
                 −{discount}%
               </span>
             )}
             {product.is_best_seller && (
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white border border-[var(--color-border)] text-[var(--color-text-primary)] text-[11px] font-semibold font-[var(--font-label)] uppercase tracking-wider">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white border border-[var(--color-border)] text-[var(--color-text-primary)] text-[11px] font-semibold font-label uppercase tracking-wider">
                 Bestseller
               </span>
             )}
             {product.is_new_arrival && (
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[var(--color-text-primary)] text-white text-[11px] font-semibold font-[var(--font-label)] uppercase tracking-wider">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[var(--color-text-primary)] text-white text-[11px] font-semibold font-label uppercase tracking-wider">
                 New
               </span>
             )}
@@ -122,7 +122,7 @@ export default function ProductCard({ product, listName }: ProductCardProps) {
           )}
 
           {/* Title — serif, clean */}
-          <h3 className="text-sm font-semibold font-[var(--font-heading)] text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 leading-snug">
+          <h3 className="text-sm font-semibold font-heading text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 leading-snug">
             {product.title}
           </h3>
 

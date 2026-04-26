@@ -41,7 +41,7 @@ export default function AdminLayout({
               <span className="text-white font-bold text-sm">P</span>
             </div>
             <div>
-              <span className="font-bold text-white text-sm font-[var(--font-heading)]">PrintMacha</span>
+              <span className="font-bold text-white text-sm font-heading">PrintMacha</span>
               <span className="text-[10px] block text-[var(--color-warm-500)] -mt-0.5">Admin Panel</span>
             </div>
           </Link>

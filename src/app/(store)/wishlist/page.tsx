@@ -24,7 +24,7 @@ export default function WishlistPage() {
 
   return (
     <div className="container-wide py-8 md:py-12">
-      <h1 className="text-3xl font-bold font-[var(--font-heading)] mb-2">My Wishlist</h1>
+      <h1 className="text-3xl font-bold font-heading mb-2">My Wishlist</h1>
       <p className="text-[var(--color-text-secondary)] mb-8">{items.length} item{items.length !== 1 ? "s" : ""} saved</p>
 
       {items.length > 0 ? (

@@ -113,7 +113,7 @@ export default function CheckoutPage() {
     <div className="container-wide py-8 md:py-12">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold font-[var(--font-heading)]">Checkout</h1>
+        <h1 className="text-2xl md:text-3xl font-bold font-heading">Checkout</h1>
         <div className="flex items-center gap-2 text-sm text-[var(--color-text-muted)]">
           <Lock className="w-4 h-4" />
           <span>Secure Checkout</span>
@@ -138,7 +138,7 @@ export default function CheckoutPage() {
 
             {/* Contact */}
             <section>
-              <h2 className="text-lg font-bold font-[var(--font-heading)] mb-4">Contact Information</h2>
+              <h2 className="text-lg font-bold font-heading mb-4">Contact Information</h2>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium mb-1.5 block">Email <span className="text-[var(--color-error)]">*</span></label>
@@ -153,7 +153,7 @@ export default function CheckoutPage() {
 
             {/* Shipping Address */}
             <section>
-              <h2 className="text-lg font-bold font-[var(--font-heading)] mb-4">Shipping Address</h2>
+              <h2 className="text-lg font-bold font-heading mb-4">Shipping Address</h2>
               <div className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
@@ -197,7 +197,7 @@ export default function CheckoutPage() {
 
             {/* Payment Method */}
             <section>
-              <h2 className="text-lg font-bold font-[var(--font-heading)] mb-4">Payment Method</h2>
+              <h2 className="text-lg font-bold font-heading mb-4">Payment Method</h2>
               <div className="space-y-3">
                 <label className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${paymentMethod === "prepaid" ? "border-[var(--color-accent)] bg-[var(--color-brand-orange-50)]" : "border-[var(--color-border)]"}`}>
                   <input type="radio" name="payment" value="prepaid" checked={paymentMethod === "prepaid"} onChange={() => setPaymentMethod("prepaid")} className="accent-[var(--color-accent)]" />
@@ -228,7 +228,7 @@ export default function CheckoutPage() {
           {/* Order Summary Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)]">
-              <h2 className="text-lg font-bold font-[var(--font-heading)] mb-4">Order Summary</h2>
+              <h2 className="text-lg font-bold font-heading mb-4">Order Summary</h2>
 
               <div className="space-y-3 mb-4">
                 {items.map((item) => (
