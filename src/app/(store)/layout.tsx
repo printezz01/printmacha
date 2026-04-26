@@ -141,7 +141,7 @@ function StoreHeader() {
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
-function NewsletterForm() {
+function NewsletterForm({ id = "newsletter-form" }: { id?: string }) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
