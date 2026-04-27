@@ -154,8 +154,8 @@ function LoginForm() {
 
       if (data.user) {
         toast.success("Welcome to PrintMacha!");
-        router.push(redirectUrl);
-        router.refresh();
+        // Use full page navigation to ensure session cookie is picked up
+        window.location.href = redirectUrl;
       }
     } catch (error: any) {
       toast.error(error.message || "Invalid or expired code. Please try again.");

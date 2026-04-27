@@ -17,23 +17,31 @@ export default async function AccountPage() {
   let orderCount = 0;
 
   if (user) {
-    // Fetch profile
-    const { data } = await supabase
-      .from("user_profiles")
-      .select("full_name, phone")
-      .eq("user_id", user.id)
-      .single();
-    if (data) {
-      if (data.full_name) profile.full_name = data.full_name;
-      if (data.phone) profile.phone = data.phone;
+    // Fetch profile (graceful - table might not exist yet)
+    try {
+      const { data } = await supabase
+        .from("user_profiles")
+        .select("full_name, phone")
+        .eq("user_id", user.id)
+        .single();
+      if (data) {
+        if (data.full_name) profile.full_name = data.full_name;
+        if (data.phone) profile.phone = data.phone;
+      }
+    } catch {
+      // user_profiles table may not exist yet
     }
 
     // Count orders
-    const { count } = await supabase
-      .from("orders")
-      .select("id", { count: "exact", head: true })
-      .eq("user_id", user.id);
-    orderCount = count || 0;
+    try {
+      const { count } = await supabase
+        .from("orders")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id);
+      orderCount = count || 0;
+    } catch {
+      // orders query failed
+    }
   }
 
   return (
