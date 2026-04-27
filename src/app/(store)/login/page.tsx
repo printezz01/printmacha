@@ -7,7 +7,7 @@ import { Mail, ArrowRight, Loader2, ArrowLeft, ShieldCheck } from "lucide-react"
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
-// ─── OTP Input (6 digits, auto-tab) ──────────────────────────────────────────
+// ─── OTP Input (8 digits, auto-tab) ──────────────────────────────────────────
 function OtpInput({
   value,
   onChange,
@@ -18,7 +18,7 @@ function OtpInput({
   disabled?: boolean;
 }) {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const digits = Array.from({ length: 6 }, (_, i) => value[i] || "");
+  const digits = Array.from({ length: 8 }, (_, i) => value[i] || "");
 
   const handleKeyDown = (i: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace" && !digits[i] && i > 0) {
@@ -32,21 +32,21 @@ function OtpInput({
     next[i] = char;
     const joined = next.join("");
     onChange(joined);
-    if (char && i < 5) {
+    if (char && i < 7) {
       inputRefs.current[i + 1]?.focus();
     }
   };
 
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
-    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 8);
     onChange(pasted);
-    const focusIdx = Math.min(pasted.length, 5);
+    const focusIdx = Math.min(pasted.length, 7);
     inputRefs.current[focusIdx]?.focus();
   };
 
   return (
-    <div style={{ display: "flex", gap: "10px", justifyContent: "center" }} onPaste={handlePaste}>
+    <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }} onPaste={handlePaste}>
       {digits.map((d, i) => (
         <input
           key={i}
@@ -59,8 +59,8 @@ function OtpInput({
           onChange={(e) => handleChange(i, e.target.value)}
           onKeyDown={(e) => handleKeyDown(i, e)}
           style={{
-            width: "48px",
-            height: "56px",
+            width: "42px",
+            height: "50px",
             textAlign: "center",
             fontSize: "20px",
             fontWeight: 700,
@@ -137,8 +137,8 @@ function LoginForm() {
   // Step 2: Verify OTP
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (otp.length !== 6) {
-      toast.error("Please enter the 6-digit code");
+    if (otp.length !== 8) {
+      toast.error("Please enter the 8-digit code");
       return;
     }
 
@@ -185,9 +185,9 @@ function LoginForm() {
     }
   };
 
-  // Auto-submit when 6 digits entered
+  // Auto-submit when 8 digits entered
   useEffect(() => {
-    if (otp.length === 6 && step === "otp" && !isLoading) {
+    if (otp.length === 8 && step === "otp" && !isLoading) {
       handleVerifyOtp({ preventDefault: () => {} } as React.FormEvent);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -222,7 +222,7 @@ function LoginForm() {
                 Check your email
               </h1>
               <p className="text-[var(--color-text-secondary)]">
-                We sent a 6-digit code to{" "}
+                We sent a 8-digit code to{" "}
                 <span className="font-medium text-[var(--color-text-primary)]">{email}</span>
               </p>
             </>
@@ -275,7 +275,7 @@ function LoginForm() {
             <form onSubmit={handleVerifyOtp} className="space-y-6">
               <div>
                 <label className="text-sm font-medium text-center block mb-4">
-                  Enter the 6-digit code
+                  Enter the 8-digit code
                 </label>
                 <OtpInput value={otp} onChange={setOtp} disabled={isLoading} />
               </div>
@@ -283,7 +283,7 @@ function LoginForm() {
               <button
                 type="submit"
                 className="w-full btn btn-primary btn-lg flex justify-center gap-2"
-                disabled={isLoading || otp.length !== 6}
+                disabled={isLoading || otp.length !== 8}
                 id="login-verify-otp"
               >
                 {isLoading ? (
