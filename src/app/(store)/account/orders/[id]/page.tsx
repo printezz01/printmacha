@@ -57,29 +57,35 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
         <h2 className="font-semibold mb-4">Order Status</h2>
         <div className="flex items-center gap-0">
           {[
-            { label: "Confirmed", icon: CheckCircle, done: true },
-            { label: "Processing", icon: Package, done: true },
-            { label: "Shipped", icon: Truck, done: true },
-            { label: "Delivered", icon: CheckCircle, done: false },
-          ].map((step, i) => (
-            <div key={step.label} className="flex-1 flex items-center">
-              <div className="flex flex-col items-center text-center flex-1">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
-                  (order.status === 'delivered' || (order.status === 'shipped' && i < 3) || (order.status === 'processing' && i < 2) || (order.status === 'confirmed' && i < 1) || (order.status === 'pending' && i < 1) || step.done) ? "bg-[var(--color-success)] text-white" : "bg-[var(--color-surface-muted)] text-[var(--color-text-muted)]"
-                }`}>
-                  <step.icon className="w-5 h-5" />
+            { label: "Confirmed", icon: CheckCircle, status: "confirmed" },
+            { label: "Processing", icon: Package, status: "processing" },
+            { label: "Shipped", icon: Truck, status: "shipped" },
+            { label: "Delivered", icon: CheckCircle, status: "delivered" },
+          ].map((step, i) => {
+            const statusOrder = ["pending", "confirmed", "processing", "shipped", "delivered"];
+            const currentIdx = statusOrder.indexOf(order.status);
+            const stepIdx = statusOrder.indexOf(step.status);
+            const isActive = currentIdx >= stepIdx;
+            return (
+              <div key={step.label} className="flex-1 flex items-center">
+                <div className="flex flex-col items-center text-center flex-1">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
+                    isActive ? "bg-[var(--color-success)] text-white" : "bg-[var(--color-surface-muted)] text-[var(--color-text-muted)]"
+                  }`}>
+                    <step.icon className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-medium">{step.label}</span>
                 </div>
-                <span className="text-xs font-medium">{step.label}</span>
+                {i < 3 && (
+                  <div className={`h-0.5 flex-1 -mt-5 ${isActive ? "bg-[var(--color-success)]" : "bg-[var(--color-border)]"}`} />
+                )}
               </div>
-              {i < 3 && (
-                <div className={`h-0.5 flex-1 -mt-5 ${step.done ? "bg-[var(--color-success)]" : "bg-[var(--color-border)]"}`} />
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
         <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
           <p className="text-sm"><strong>Tracking:</strong> {order.tracking_number || "Not available yet"}</p>
-          {order.tracking_url && <a href={order.tracking_url} className="text-sm text-[var(--color-accent)] hover:underline">Track on carrier website →</a>}
+          {order.tracking_url && <a href={order.tracking_url} target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--color-accent)] hover:underline">Track on carrier website →</a>}
         </div>
       </div>
 

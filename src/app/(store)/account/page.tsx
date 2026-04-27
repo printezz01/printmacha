@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { User, ShoppingBag, MapPin, Heart, Package } from "lucide-react";
+import { User, ShoppingBag, MapPin, Heart, Package, LogOut } from "lucide-react";
 import CustomerLogoutButton from "@/components/store/CustomerLogoutButton";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { Metadata } from "next";
@@ -12,20 +12,28 @@ export const metadata: Metadata = {
 export default async function AccountPage() {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
-  
-  let profile = { full_name: "PrintMacha Customer", phone: "Not provided" };
-  
+
+  let profile = { full_name: "PrintMacha Customer", phone: "" };
+  let orderCount = 0;
+
   if (user) {
+    // Fetch profile
     const { data } = await supabase
       .from("user_profiles")
       .select("full_name, phone")
       .eq("user_id", user.id)
       .single();
-      
     if (data) {
       if (data.full_name) profile.full_name = data.full_name;
       if (data.phone) profile.phone = data.phone;
     }
+
+    // Count orders
+    const { count } = await supabase
+      .from("orders")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id);
+    orderCount = count || 0;
   }
 
   return (
@@ -34,22 +42,25 @@ export default async function AccountPage() {
 
       <div className="grid md:grid-cols-3 gap-6">
         {/* Profile Card */}
-        <div className="md:col-span-3 p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xl font-bold uppercase">
-            {profile.full_name.charAt(0)}
+        <div className="md:col-span-3 p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-xl font-bold uppercase">
+              {profile.full_name.charAt(0)}
+            </div>
+            <div>
+              <h2 className="font-bold text-lg">{profile.full_name}</h2>
+              <p className="text-sm text-[var(--color-text-secondary)]">{user?.email || profile.phone}</p>
+            </div>
           </div>
-          <div>
-            <h2 className="font-bold text-lg">{profile.full_name}</h2>
-            <p className="text-sm text-[var(--color-text-secondary)]">{user?.email || profile.phone}</p>
-          </div>
+          <Link href="/account/profile" className="btn btn-ghost btn-sm">
+            Edit Profile
+          </Link>
         </div>
 
         {/* Quick Links */}
         {[
-          { title: "Orders", desc: "Track and manage your orders", icon: ShoppingBag, href: "/account/orders", count: "3" },
-          { title: "Addresses", desc: "Manage shipping addresses", icon: MapPin, href: "/account/addresses", count: "2" },
+          { title: "Orders", desc: "Track and manage your orders", icon: ShoppingBag, href: "/account/orders", count: orderCount > 0 ? String(orderCount) : undefined },
           { title: "Profile", desc: "Update your personal info", icon: User, href: "/account/profile" },
-          { title: "Wishlist", desc: "Your saved items", icon: Heart, href: "/wishlist", count: "5" },
           { title: "Track Order", desc: "Real-time order tracking", icon: Package, href: "/account/track" },
         ].map((item) => (
           <Link

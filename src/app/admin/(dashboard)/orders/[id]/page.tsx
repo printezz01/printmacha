@@ -241,15 +241,15 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
                 <span className="text-[var(--color-text-muted)]">Subtotal</span>
                 <span>{formatPrice(order.subtotal)}</span>
               </div>
-              {order.discount > 0 && (
+              {order.discount_amount > 0 && (
                 <div className="flex justify-between text-sm text-green-600">
                   <span>Discount {order.coupon_code ? `(${order.coupon_code})` : ""}</span>
-                  <span>−{formatPrice(order.discount)}</span>
+                  <span>−{formatPrice(order.discount_amount)}</span>
                 </div>
               )}
               <div className="flex justify-between text-sm">
                 <span className="text-[var(--color-text-muted)]">Shipping</span>
-                <span>{order.shipping_cost === 0 ? <span className="text-green-600">Free</span> : formatPrice(order.shipping_cost)}</span>
+                <span>{order.shipping_amount === 0 ? <span className="text-green-600">Free</span> : formatPrice(order.shipping_amount)}</span>
               </div>
               <div className="flex justify-between font-bold text-base pt-2 border-t border-[var(--color-border)]">
                 <span>Total</span>
@@ -332,8 +332,8 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
               </p>
               <p>
                 <span className="text-[var(--color-text-muted)]">Status: </span>
-                <span className={`status-pill status-${order.payment_status}`}>
-                  {statusLabel(order.payment_status || "pending")}
+                <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${order.payment_method === 'prepaid' ? 'bg-green-50 text-green-700' : 'bg-yellow-50 text-yellow-700'}`}>
+                  {order.payment_method === 'prepaid' ? 'Paid' : 'COD'}
                 </span>
               </p>
               <p className="mt-2">

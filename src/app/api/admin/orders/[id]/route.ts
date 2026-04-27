@@ -53,7 +53,6 @@ export async function PATCH(
     const updates: any = { updated_at: new Date().toISOString() };
 
     if (body.status) updates.status = body.status;
-    if (body.payment_status) updates.payment_status = body.payment_status;
     if (body.tracking_number !== undefined) updates.tracking_number = body.tracking_number;
     if (body.tracking_url !== undefined) updates.tracking_url = body.tracking_url;
     if (body.notes !== undefined) updates.notes = body.notes;

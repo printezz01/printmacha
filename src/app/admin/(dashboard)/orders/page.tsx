@@ -185,8 +185,8 @@ export default function AdminOrdersPage() {
                     <td className="p-4 text-[var(--color-text-muted)]">{order.order_items?.length || 0}</td>
                     <td className="p-4 font-bold">{formatPrice(order.total)}</td>
                     <td className="p-4">
-                      <span className={`status-pill status-${order.payment_status}`}>
-                        {statusLabel(order.payment_status || "pending")}
+                      <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${order.payment_method === 'prepaid' ? 'bg-green-50 text-green-700' : 'bg-yellow-50 text-yellow-700'}`}>
+                        {order.payment_method === 'prepaid' ? 'Prepaid' : 'COD'}
                       </span>
                     </td>
                     <td className="p-4">

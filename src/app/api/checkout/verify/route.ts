@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     // Look up the order by order_number
     const { data: order, error } = await supabase
       .from("orders")
-      .select("id, order_number, status, payment_status")
+      .select("id, order_number, status")
       .eq("order_number", orderId)
       .single();
 
@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
         .from("orders")
         .update({
           status: "confirmed",
-          payment_status: "paid",
           updated_at: new Date().toISOString(),
         })
         .eq("id", order.id);
