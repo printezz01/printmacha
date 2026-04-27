@@ -119,23 +119,33 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
               )}
             </div>
           </div>
-          {/* Thumbnail row — show actual image or product-specific views */}
-          {product.featured_image && (
-            <div className="flex gap-3">
-              {[0, 1, 2, 3].map((i) => (
-                <button
-                  key={i}
-                  className={`w-20 h-20 rounded-xl border-2 ${i === 0 ? "border-[var(--color-accent)]" : "border-[var(--color-border)]"} overflow-hidden transition-all hover:border-[var(--color-accent)]`}
-                >
-                  <img
-                    src={product.featured_image!}
-                    alt={`${product.title} view ${i + 1}`}
-                    className={`w-full h-full object-cover ${i > 0 ? `hue-rotate-${i * 15}` : ''}`}
-                  />
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Thumbnail row — show gallery images if available */}
+          {(() => {
+            const galleryUrls: string[] = [];
+            if (product.images && product.images.length > 0) {
+              product.images
+                .sort((a, b) => a.sort_order - b.sort_order)
+                .forEach((img) => galleryUrls.push(img.url));
+            }
+            // Only show thumbnails if we have multiple gallery images
+            if (galleryUrls.length <= 1) return null;
+            return (
+              <div className="flex gap-3 overflow-x-auto pb-1">
+                {galleryUrls.map((url, i) => (
+                  <button
+                    key={i}
+                    className={`w-20 h-20 shrink-0 rounded-xl border-2 ${i === 0 ? "border-[var(--color-accent)]" : "border-[var(--color-border)]"} overflow-hidden transition-all hover:border-[var(--color-accent)]`}
+                  >
+                    <img
+                      src={url}
+                      alt={`${product.title} view ${i + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            );
+          })()}
         </div>
 
         {/* Product Info */}
