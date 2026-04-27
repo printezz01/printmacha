@@ -32,6 +32,7 @@ export interface AppliedCoupon {
   type: string;
   value: number;
   discount: number;
+  min_purchase?: number;
 }
 
 interface CartContextType {
@@ -195,6 +196,37 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, 0);
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
   const total = subtotal + shipping;
+
+  // ── Recalculate coupon discount whenever subtotal changes ──────────
+  useEffect(() => {
+    if (!appliedCoupon || !isHydrated) return;
+
+    // Remove coupon if cart is empty
+    if (items.length === 0) {
+      setAppliedCoupon(null);
+      return;
+    }
+
+    // Remove coupon if minimum purchase no longer met
+    if (appliedCoupon.min_purchase && subtotal < appliedCoupon.min_purchase) {
+      setAppliedCoupon(null);
+      return;
+    }
+
+    // Recalculate discount amount
+    let newDiscount: number;
+    if (appliedCoupon.type === "percentage") {
+      newDiscount = Math.round((subtotal * appliedCoupon.value) / 100);
+    } else {
+      // Fixed discount — cap at subtotal so it never goes negative
+      newDiscount = Math.min(appliedCoupon.value, subtotal);
+    }
+
+    if (newDiscount !== appliedCoupon.discount) {
+      setAppliedCoupon((prev) => prev ? { ...prev, discount: newDiscount } : null);
+    }
+  }, [subtotal, items.length, isHydrated]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const discount = appliedCoupon?.discount || 0;
   const finalTotal = Math.max(0, total - discount);
 

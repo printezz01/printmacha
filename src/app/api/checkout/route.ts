@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
           customerName: shipping_address.full_name || "Guest User",
           customerEmail: guest_email || "customer@printmacha.com",
           customerPhone: guest_phone || shipping_address.phone || "9999999999",
-          returnUrl: `${siteUrl}/checkout/success`,
+          returnUrl: `${siteUrl}/checkout/success?order_id=${orderNumber}`,
         });
 
         return NextResponse.json({
