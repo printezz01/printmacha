@@ -21,7 +21,7 @@ const navItems = [
   { label: "Customers", href: "/admin/customers", icon: Users },
   { label: "Reviews", href: "/admin/reviews", icon: Star },
   { label: "Coupons", href: "/admin/coupons", icon: Tag },
-  { label: "Content", href: "/admin/content", icon: FileText },
+  { label: "Edit Homepage", href: "/admin/content", icon: FileText },
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
