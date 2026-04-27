@@ -58,7 +58,7 @@ function OtpInput({
           disabled={disabled}
           onChange={(e) => handleChange(i, e.target.value)}
           onKeyDown={(e) => handleKeyDown(i, e)}
-          className="w-12 h-14 text-center text-xl font-bold rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/20 outline-none transition-all disabled:opacity-50"
+          className="w-12 h-14 text-center text-xl font-bold rounded-xl border-2 border-[var(--color-border)] bg-white focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/20 outline-none transition-all disabled:opacity-50"
           aria-label={`Digit ${i + 1}`}
         />
       ))}
@@ -254,7 +254,12 @@ function LoginForm() {
           {/* ── Step 2: Enter OTP ─────────────────────────────────── */}
           {step === "otp" && (
             <form onSubmit={handleVerifyOtp} className="space-y-6">
-              <OtpInput value={otp} onChange={setOtp} disabled={isLoading} />
+              <div>
+                <label className="text-sm font-medium text-center block mb-4">
+                  Enter the 6-digit code
+                </label>
+                <OtpInput value={otp} onChange={setOtp} disabled={isLoading} />
+              </div>
 
               <button
                 type="submit"
