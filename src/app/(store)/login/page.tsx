@@ -46,7 +46,7 @@ function OtpInput({
   };
 
   return (
-    <div className="flex gap-2.5 justify-center" onPaste={handlePaste}>
+    <div style={{ display: "flex", gap: "10px", justifyContent: "center" }} onPaste={handlePaste}>
       {digits.map((d, i) => (
         <input
           key={i}
@@ -58,7 +58,26 @@ function OtpInput({
           disabled={disabled}
           onChange={(e) => handleChange(i, e.target.value)}
           onKeyDown={(e) => handleKeyDown(i, e)}
-          className="w-12 h-14 text-center text-xl font-bold rounded-xl border-2 border-[var(--color-border)] bg-white focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/20 outline-none transition-all disabled:opacity-50"
+          style={{
+            width: "48px",
+            height: "56px",
+            textAlign: "center",
+            fontSize: "20px",
+            fontWeight: 700,
+            borderRadius: "12px",
+            border: "2px solid #d1d5db",
+            backgroundColor: "#fff",
+            outline: "none",
+            caretColor: "var(--color-accent)",
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.borderColor = "var(--color-accent)";
+            e.currentTarget.style.boxShadow = "0 0 0 3px rgba(var(--color-accent-rgb, 200, 80, 40), 0.15)";
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.borderColor = "#d1d5db";
+            e.currentTarget.style.boxShadow = "none";
+          }}
           aria-label={`Digit ${i + 1}`}
         />
       ))}
