@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2, Trash2 } from "lucide-react";
 import ImageUpload from "@/components/admin/ImageUpload";
+import GalleryUpload from "@/components/admin/GalleryUpload";
 import { slugify } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -26,6 +27,7 @@ interface ProductFormData {
   sale_price: string;
   stock_quantity: string;
   featured_image: string | null;
+  gallery_images: { url: string; alt_text?: string }[];
   is_featured: boolean;
   is_new_arrival: boolean;
   is_best_seller: boolean;
@@ -52,6 +54,7 @@ const defaultFormData: ProductFormData = {
   sale_price: "",
   stock_quantity: "0",
   featured_image: null,
+  gallery_images: [],
   is_featured: false,
   is_new_arrival: false,
   is_best_seller: false,
@@ -244,6 +247,26 @@ export default function ProductForm({ productId, initialData }: ProductFormProps
               value={form.featured_image}
               onChange={(url) => updateField("featured_image", url)}
               bucket="product-images"
+            />
+          </div>
+
+          {/* Gallery */}
+          <div className="bg-white rounded-xl border border-[var(--color-border)] p-6 space-y-4">
+            <h2 className="font-bold">Product Gallery</h2>
+            <p className="text-sm text-[var(--color-text-muted)]">
+              Upload multiple product photos. The first image becomes the featured image if none is set above.
+            </p>
+            <GalleryUpload
+              value={form.gallery_images}
+              onChange={(images) => {
+                updateField("gallery_images", images);
+                // Auto-set featured image from first gallery image if not set
+                if (images.length > 0 && !form.featured_image) {
+                  updateField("featured_image", images[0].url);
+                }
+              }}
+              bucket="product-images"
+              maxImages={8}
             />
           </div>
 

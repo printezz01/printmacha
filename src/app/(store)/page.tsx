@@ -393,22 +393,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ================================================================
-          NEWSLETTER CTA
-      ================================================================ */}
-      <section className="py-16 bg-[var(--color-text-primary)]">
-        <div className="container-wide text-center">
-          <p className="label-overline text-[var(--color-warm-500)] mb-4">Studio Journal</p>
-          <h2 className="text-3xl md:text-4xl font-bold font-heading text-white mb-3">
-            Get 10% off your first order
-          </h2>
-          <p className="text-[var(--color-warm-400)] text-sm mb-8 max-w-sm mx-auto">
-            Behind-the-scenes process, new drops, and exclusive offers.
-          </p>
-          <NewsletterForm id="homepage-newsletter" />
-        </div>
-      </section>
     </>
   );
 }

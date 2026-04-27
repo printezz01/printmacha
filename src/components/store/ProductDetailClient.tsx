@@ -35,7 +35,6 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
   const { toggleItem: toggleWishlist, isInWishlist } = useWishlist();
 
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState(product.size || "A3");
 
   const hasDiscount = product.sale_price && product.sale_price < product.base_price;
   const displayPrice = product.sale_price || product.base_price;
@@ -44,12 +43,12 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
   const inWishlist = isInWishlist(product.id);
 
   const handleAddToCart = () => {
-    addToCart(product, quantity, selectedSize);
+    addToCart(product, quantity, product.size || undefined);
     toast.success(`${product.title} added to cart!`);
   };
 
   const handleBuyNow = () => {
-    addToCart(product, quantity, selectedSize);
+    addToCart(product, quantity, product.size || undefined);
     router.push("/checkout");
   };
 
@@ -90,7 +89,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
         {/* Image Gallery */}
         <div className="space-y-4">
-          <div className="aspect-square rounded-2xl bg-[var(--color-surface-muted)] product-image-placeholder relative overflow-hidden">
+          <div className="aspect-square rounded-2xl bg-[var(--color-surface-muted)] relative overflow-hidden">
             {product.featured_image ? (
               <img
                 src={product.featured_image}
@@ -108,25 +107,35 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
               </div>
             )}
             {/* Badges */}
-            <div className="absolute top-4 left-4 flex flex-col gap-2">
-              {product.is_new_arrival && <span className="badge badge-new">New</span>}
-              {product.is_best_seller && <span className="badge badge-bestseller">Bestseller</span>}
-              {hasDiscount && <span className="badge badge-sale">-{discount}%</span>}
+            <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+              {hasDiscount && (
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[var(--color-accent)] text-white text-[11px] font-semibold">−{discount}%</span>
+              )}
+              {product.is_best_seller && (
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white border border-[var(--color-border)] text-[var(--color-text-primary)] text-[11px] font-semibold uppercase tracking-wider">Bestseller</span>
+              )}
+              {product.is_new_arrival && (
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[var(--color-text-primary)] text-white text-[11px] font-semibold uppercase tracking-wider">New</span>
+              )}
             </div>
           </div>
-          {/* Thumbnail row */}
-          <div className="flex gap-3">
-            {[1, 2, 3, 4].map((i) => (
-              <button
-                key={i}
-                className={`w-20 h-20 rounded-xl bg-[var(--color-surface-muted)] border-2 ${i === 1 ? "border-[var(--color-accent)]" : "border-transparent"} overflow-hidden product-image-placeholder transition-all hover:border-[var(--color-accent)]`}
-              >
-                <div className="w-full h-full flex items-center justify-center">
-                  <ShoppingBag className="w-5 h-5 text-[var(--color-warm-400)]" />
-                </div>
-              </button>
-            ))}
-          </div>
+          {/* Thumbnail row — show actual image or product-specific views */}
+          {product.featured_image && (
+            <div className="flex gap-3">
+              {[0, 1, 2, 3].map((i) => (
+                <button
+                  key={i}
+                  className={`w-20 h-20 rounded-xl border-2 ${i === 0 ? "border-[var(--color-accent)]" : "border-[var(--color-border)]"} overflow-hidden transition-all hover:border-[var(--color-accent)]`}
+                >
+                  <img
+                    src={product.featured_image!}
+                    alt={`${product.title} view ${i + 1}`}
+                    className={`w-full h-full object-cover ${i > 0 ? `hue-rotate-${i * 15}` : ''}`}
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Product Info */}
@@ -203,27 +212,15 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
             )}
           </div>
 
-          {/* Size selector */}
-          <div className="space-y-4 mb-6">
-            <div>
+          {/* Size — show product's actual size, not hardcoded options */}
+          {product.size && (
+            <div className="mb-6">
               <label className="text-sm font-medium mb-2 block">Size</label>
-              <div className="flex gap-2">
-                {["A4", "A3", "A2"].map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
-                      size === selectedSize
-                        ? "border-[var(--color-accent)] bg-[var(--color-brand-orange-50)] text-[var(--color-accent)]"
-                        : "border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-primary)]"
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
+              <div className="inline-flex px-4 py-2 rounded-lg border border-[var(--color-accent)] bg-[var(--color-brand-orange-50)] text-[var(--color-accent)] text-sm font-medium">
+                {product.size}
               </div>
             </div>
-          </div>
+          )}
 
           {/* Quantity & Actions */}
           <div className="flex items-center gap-4 mb-6">
