@@ -23,6 +23,7 @@ import { useCart } from "@/lib/cart-context";
 import { useWishlist } from "@/lib/wishlist-context";
 import { toast } from "sonner";
 import type { Product } from "@/types/database";
+import PincodeChecker from "@/components/store/PincodeChecker";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -297,21 +298,18 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
 
           {/* Buy Now */}
           <button
-            className="w-full btn btn-secondary btn-lg mb-8"
+            className="w-full btn btn-secondary btn-lg mb-4"
             id="buy-now-btn"
             onClick={handleBuyNow}
           >
             Buy Now
           </button>
 
+          {/* Pincode Delivery Checker */}
+          <PincodeChecker />
+
           {/* Trust cues */}
-          <div className="space-y-3 p-4 rounded-xl border border-[var(--color-border)]">
-            <div className="flex items-center gap-3 text-sm">
-              <Truck className="w-4 h-4 text-[var(--color-accent)] shrink-0" />
-              <span>
-                <strong>Delivery:</strong> {product.delivery_estimate || "5-7 business days"} · Free above ₹999
-              </span>
-            </div>
+          <div className="mt-4 space-y-3 p-4 rounded-xl border border-[var(--color-border)]">
             <div className="flex items-center gap-3 text-sm">
               <RotateCcw className="w-4 h-4 text-[var(--color-accent)] shrink-0" />
               <span>
